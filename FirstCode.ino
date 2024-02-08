@@ -8,7 +8,7 @@ void loop() {
 
   uint32_t currentTime = millis();
 
-  if( (currentTime - previousTime) > 500){
+  if( (currentTime - previousTime) > 1000){
     previousTime = currentTime;
     ledState = !ledState;
     digitalWrite(LED_BUILTIN, ledState);
