@@ -1,40 +1,80 @@
-### **Ejercicio 1: introducción**
+Ejercicio 9: tareas concurrentes (evaluación formativa)
+Para sacar el máximo provecho a la CPU de tu microcontrolador lo ideal es dividir el problema en varias tareas que se puedan ejecutar de manera concurrente. La arquitectura de software que te voy a proponer es esta:
 
-**Advertencia**
+  ```cpp
+    void task1(){
+    
+    }
+    
+    void task2(){
+    
+    }
+    
+    void task3(){
+    
+    }
+    
+    void setup()
+    {
+        task1();
+        task2();
+        task3();
+    }
+    
+    void loop()
+    {
+        task1();
+        task2();
+        task3();
+    }
+```
+Nota entonces que tu programa está dividido en tres tareas. La función setup se ejecuta una sola vez y ahí se llama por primera vez cada tarea. La función loop se ejecuta cada que las tareas terminan, es como un ciclo infinito.
+Te voy a mostrar el código para la task1 y luego con tu equipo vas a construir las demás tareas. La frecuencia del mensaje será de 1 Hz
+El objetivo es que hagas un programa donde tengas 3 tareas. La tarea 1 enviará un mensaje a 1 Hz., la tarea 2 a 0.5 Hz., la tarea 3 a 0.25 Hz.
+Te voy a dejar como ejemplo el programa de una de las tareas. Te queda entonces el reto de realizar las otras tareas. No olvides sincronizar tu repositorio local con el remoto donde está la evaluación.
 
-RECUERDA LO QUE APRENDERÁS EN ESTE CURSO
-
-En este curso aprenderás a construir aplicaciones interactivas que integren y envíen información desde y hacia el mundo exterior.
-
-¿Recuerdas que te mostré al iniciar el curso un trabajo de grado realizado por estudiantes del programa? Te voy a pedir que veas algunos segundos del video del DEMO de [este](https://tdaxis.github.io/demo.html) trabajo.
-
-Déjame te hablo de nuevo de este sistema porque es un excelente resumen de lo que busco que aprendas con este curso.
-
-La idea de la aplicación es VARIAR las visuales y el audio con la información del movimiento que se captura en tiempo real de una bailarina.
-
-La imagen está dividida en 4 partes. En la esquina superior izquierda observarás   `LA APLICACIÓN INTERACTIVA` que está corriendo en un computador. Esta aplicación se encargará de proyectar las visuales que están en la esquina superior derecha y controlar el software de audio que está en la esquina inferior derecha. Observa la esquina inferior izquierda, allí verás una captura en tiempo real de los movimientos de una bailarina.
-
-¿Cómo se captura este movimiento? Se hace por medio de unos dispositivos que te mostraré en estos videos:
-
-- [Perception Neuron Trailer](https://youtu.be/v72P7q0sIXI).
-- [Bailarina controlando un metahumano](https://youtu.be/pynCWHD8RPg).
-
-Los dispositivos que llevan puestos las personas en los videos están compuestos por:
-
-- Un sensor para medir el movimiento.
-- Un computador embebido o microcontrolador que lee la información del sensor.
-- Un radio de comunicación inalámbrica para transmitir la información leída.
-
-La información se le entrega al computador que ejecuta la aplicación interactiva usando un `PROTOCOLO DE COMUNICACIÓN`. El protocolo es un acuerdo que se establece entre las partes involucradas en la comunicación de tal manera que ambas puedan entenderse.
-
-¿Por qué te muestro todo esto?
-
-Porque en este curso vamos a realizar un recorrido por los elementos que componen este tipo de aplicaciones.
-
-En esta unidad vas a programar un microcontrolador similar al que tienen los dispositivos de captura de movimiento. En las unidades 2 y 3 vas experimentar con dos tipos de protocolos de comunicación. Finalmente, en la unidad 4 construirás una aplicación simple que integre todos los elementos y lo que aprendiste en las unidades previas.
-
-**Advertencia**
-
-ESTO ES MUY IMPORTANTE
-
-Las aplicaciones que realizarás serán simples, PERO si lo analizas te darás cuenta que contienen todos los elementos necesarios para que entiendas cómo funcionan las aplicaciones que te mostré en los videos.
+```cpp    
+    void task1(){
+        enum class Task1States{
+            INIT,
+            WAIT_FOR_TIMEOUT
+        };
+    
+        static Task1States task1State = Task1States::INIT;
+        static uint32_t lastTime;
+        static constexpr uint32_t INTERVAL = 1000;
+    
+        switch(task1State){
+            case Task1States::INIT:{
+                Serial.begin(115200);
+                lastTime = millis();
+                task1State = Task1States::WAIT_FOR_TIMEOUT;
+                break;
+            }
+    
+            case Task1States::WAIT_FOR_TIMEOUT:{
+                // evento 1:            uint32_t currentTime = millis();
+                if( (currentTime - lastTime) >= INTERVAL ){
+                    lastTime = currentTime;
+                    Serial.print("mensaje a 1Hz\n");
+                }
+                break;
+            }
+    
+            default:{
+                break;
+            }
+        }
+    
+    }
+    
+    void setup()
+    {
+        task1();
+    }
+    
+    void loop()
+    {
+        task1();
+    }
+```
