@@ -70,3 +70,63 @@ void loop()
 - ¿Cómo se ejecuta este programa?
 - Pudiste ver este mensaje: `Serial.print("Task1States::WAIT_TIMEOUT\n");`. ¿Por qué crees que ocurre esto?
 - ¿Cuántas veces se ejecuta el código en el case Task1States::INIT?
+
+
+## Solución
+
+Este es el comportamiento del codigo visto desde el Monitor serie
+La salida muestra el tiempo actual en milisegundos, y parece seguir un patrón donde se incrementa en 1000 milisegundos (1 segundo) en cada línea. 
+
+https://github.com/DanielZafiro/Daniel_RaspPico_Project/assets/66543657/c41fde5b-1a89-4a4a-a7ec-b5b45ca9ee1e
+
+Este código es un ejemplo de programación basada en máquinas de estados:
+- La aplicación tiene una tarea (task1()) que se ejecuta repetidamente.
+- Se utiliza una máquina de estados para gestionar diferentes estados y transiciones.
+- La tarea mide el tiempo transcurrido y envía números al puerto serie a intervalos regulares.
+
+Funcionamiento
+
+1. **Enum `Task1States`:**
+   - Define dos estados posibles: `INIT` y `WAIT_TIMEOUT`.
+   - El estado inicial es `INIT`.
+
+2. **Variables Estáticas:**
+   - `task1State`: Almacena el estado actual de la máquina de estados.
+   - `lastTime`: Almacena el tiempo de la última acción.
+
+3. **Constantes:**
+   - `INTERVAL`: Establece el intervalo de tiempo en milisegundos (1000 milisegundos = 1 segundo).
+
+4. **Máquina de Estados (`switch`):**
+   - **`INIT` Estado:**
+     - Se ejecuta solo una vez al inicio.
+     - Inicia la comunicación serie (`Serial.begin(115200)`).
+     - Establece el tiempo inicial (`lastTime = millis()`).
+     - Cambia al estado `WAIT_TIMEOUT` e imprime un mensaje en la consola.
+
+   - **`WAIT_TIMEOUT` Estado:**
+     - Comprueba si ha pasado el intervalo de tiempo especificado desde la última acción.
+     - Si ha pasado el tiempo, imprime el tiempo actual en la consola.
+     - No cambia de estado.
+
+   - **`default` (Error):**
+     - Se ejecuta si la máquina de estados se encuentra en un estado no definido.
+
+5. **Setup y Loop:**
+   - `setup()`: Inicia la máquina de estados llamando a `task1()` una vez al inicio.
+   - `loop()`: Ejecuta la máquina de estados de forma continua en un bucle.
+
+Salida Serial:
+
+- La salida se envía al puerto serie (`Serial.print()`).
+- En el estado `WAIT_TIMEOUT`, se imprimirá el tiempo actual en la consola(Monitor serie) cada vez que haya pasado el intervalo de tiempo especificado.
+
+Conclusiones:
+
+- El código establece un intervalo (`INTERVAL`) de 1000 milisegundos en la constante correspondiente.
+- Se utiliza una máquina de estados para gestionar los diferentes estados del programa.
+- El código está organizado y estructurado de manera clara.
+- La tarea (`task1()`) se ejecuta continuamente en el bucle principal (`loop()`).
+- En el estado `WAIT_TIMEOUT`, se verifica si ha pasado el intervalo de tiempo especificado desde la última acción.
+- Si han pasado aproximadamente 1000 milisegundos desde la última acción, imprime el tiempo actual en milisegundos en el Monitor Serie.
+- Los números en la salida representan el tiempo en milisegundos, y cada línea muestra un incremento de 1000 milisegundos.
