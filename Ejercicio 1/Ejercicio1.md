@@ -38,3 +38,11 @@ En esta unidad vas a programar un microcontrolador similar al que tienen los dis
 ESTO ES MUY IMPORTANTE
 
 Las aplicaciones que realizarás serán simples, PERO si lo analizas te darás cuenta que contienen todos los elementos necesarios para que entiendas cómo funcionan las aplicaciones que te mostré en los videos.
+
+Los ejercicios de la unidad y del curso los desarrollarás en este repositorio.
+
+**Nota**
+
+Hay otro curso en el programa para seguir profundizando
+
+En el plan de estudios de la carrera encontrarás otro curso llamado sistemas físicos interactivos 2. Es un curso de la línea de experiencias interactivas que puedes tomar como optativa del ciclo profesional si no estás en la línea de experiencias. En este curso vas a construir una aplicación usando todo lo que aprenderás en sistemas físicos interactivos 1. Mira por ejemplo [el proyecto](https://github.com/juanferfranco/RisitasCorp_Rider) que realizaron unos de tus compañeros.
