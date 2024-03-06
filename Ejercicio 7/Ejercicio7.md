@@ -117,3 +117,24 @@ millis(); 
 ```
 
 ¿Para qué sirve? Recuerda que puedes buscar en [Internet](https://www.arduino.cc/reference/en/language/functions/time/millis/).
+
+## Solución
+
+Basado en la documentación de Arduino
+`millis()` Devuelve el numero de milisegudnos que pasaron desque que el dispositvio Arduino comenzó a correr el programa actual.
+
+Syntax
+`time = millis()`
+
+Returns/Devuelve
+Number of milliseconds passed since the program started. Data type: `unsigned long`
+
+Ejemplo:
+
+```cpp
+
+```
+
+
+![image](https://github.com/DanielZafiro/Daniel_RaspPico_Project/assets/66543657/c177f9e1-00ae-4ad7-84c3-6b458b36613c)
+
