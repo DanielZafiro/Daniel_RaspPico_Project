@@ -130,11 +130,59 @@ Returns/Devuelve
 Number of milliseconds passed since the program started. Data type: `unsigned long`
 
 Ejemplo:
-
 ```cpp
+unsigned long myTime; //variable global que almacena el tiempo en myTime
 
+void setup() {
+  Serial.begin(9600); // Velocidad de transmision de de 9600 baudios entre Raspberry Pi Pico y el dispos. conectado
+}
+void loop() {
+  Serial.print("Time: "); // Imprime el texto predecesor "Time: "
+  myTime = millis(); // Almacena en la variable myTime el tiempo en milisegundos transcurrido
+
+  Serial.println(myTime); // Imprime el tiempo desde que el programa inició
+  delay(1000);          // Espera un segundo  para no enviar cantidades de datos masivos 
+}
 ```
-
+este código crea un bucle que imprime el tiempo en milisegundos desde el inicio del programa en el Monitor Serie cada segundo. Esto es útil para monitorear el tiempo de ejecución y entender cómo se comporta el programa en términos temporales.
 
 ![image](https://github.com/DanielZafiro/Daniel_RaspPico_Project/assets/66543657/c177f9e1-00ae-4ad7-84c3-6b458b36613c)
 
+utiliza la función `millis()` para medir el tiempo transcurrido desde que el programa comenzó a ejecutarse. Luego, imprime ese tiempo en milisegundos en el Monitor Serie cada segundo. 
+
+1. **Declaración de Variable:**
+   - `unsigned long myTime;`: Declara una variable global llamada `myTime` como tipo de datos `unsigned long` para almacenar el tiempo en milisegundos.
+
+2. **Configuración Inicial (`setup`):**
+   - `Serial.begin(9600);`: Inicia la comunicación serie a una velocidad de 9600 baudios. Esto permite la comunicación entre el Arduino y el Monitor Serie en la computadora.
+
+3. **Bucle Principal (`loop`):**
+   - `Serial.print("Time: ");`: Imprime el texto "Time: " en el Monitor Serie.
+   - `myTime = millis();`: Almacena en la variable `myTime` el tiempo en milisegundos transcurrido desde que el programa comenzó a ejecutarse.
+   - `Serial.println(myTime);`: Imprime el valor almacenado en `myTime` seguido por un salto de línea en el Monitor Serie. Esto muestra el tiempo en milisegundos desde que el programa se inició.
+   - `delay(1000);`: Espera 1000 milisegundos (1 segundo) antes de repetir el bucle. Esto evita que el programa envíe grandes cantidades de datos al Monitor Serie en un corto período de tiempo.
+  
+En el codigo del ejercicio se inicializa con `Serial.begin(115200);` cosa que me parecio peculiar mientras que en la documentación de ARduino encontré que en el ejemplo de `millis()` usan una velocidad de transferrencia diferente: `Serial.begin(9600);` indagando encontré que, la elección del valor en `Serial.begin()` depende de varios factores, y no hay un valor único que sea siempre el más apropiado. La velocidad de comunicación (`baud rate`) determina la velocidad a la que los datos se transmiten entre el Arduino y el dispositivo conectado (como el Monitor Serie en la computadora). La elección del valor debe coincidir entre ambos dispositivos para garantizar una comunicación correcta.
+
+En el caso de 
+```
+Serial.begin(9600);
+```
+Se selecciona una velocidad de 9600 baudios. Esta velocidad es comúnmente utilizada y es una elección adecuada para casos donde la velocidad máxima no es crítica, como en ejemplos sencillos o pruebas iniciales. En configuraciones básicas, como la transmisión de mensajes de estado o datos a una velocidad más baja, 9600 baudios es suficiente.
+
+mientras que en el caso de
+```
+Serial.begin(115200);
+```
+Se selecciona una velocidad de 115200 baudios. Esta velocidad es más rápida en comparación con 9600 y es comúnmente utilizada en entornos donde se necesita transmitir datos a una velocidad más alta, como en la transferencia de datos más complejos o en entornos donde la velocidad de transmisión es un factor importante.
+
+*Dato interesante:*
+
+**La velocidad mínima y máxima** 
+
+(baud rate) que se puede utilizar con Serial.begin() en un Arduino depende del modelo específico y de la frecuencia del microcontrolador. Sin embargo, en muchos modelos de Arduino, las velocidades típicas son las siguientes:
+
+|           |             |
+|-----------|-------------|
+| Velocidad Mínima | La velocidad mínima comúnmente admitida es 300 baudios. Este es un valor bajo y se usa en situaciones donde la velocidad de transmisión no es crítica. |
+| Velocidad Máxima | La velocidad máxima puede variar según el modelo, pero valores comunes incluyen 115200, 230400, 460800 e incluso 1000000 (1 Mbps). Estos valores más altos se utilizan cuando se necesita una transmisión de datos más rápida. |
