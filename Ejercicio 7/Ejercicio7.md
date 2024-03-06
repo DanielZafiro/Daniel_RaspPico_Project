@@ -6,7 +6,7 @@ Miremos algunos aspectos del programa:
 - Este programa tiene un pseudo estado y un estado, pero desde ahora diremos que tiene 2 estados:
     
     ```cpp
-    **enum** **class** **Task1States**{
+    enum class Task1States{
         INIT,
         WAIT_TIMEOUT
     };
