@@ -3,7 +3,7 @@
 ```cpp
 void task1()
 {
-    // Definición de estados y variable de estado
+    // Definición de estados y variable de estado Dos posibles estados
     enum class Task1States
     {
         INIT,
@@ -14,7 +14,7 @@ void task1()
     // Definición de variables static (conservan su valor entre llamadas a task1)
     static uint32_t lastTime = 0;
 
-    // Constantes
+    // Constante de intevalo cada 1000 milisegundos
     constexpr uint32_t INTERVAL = 1000;
 
     // MÁQUINA de ESTADOS
@@ -29,7 +29,7 @@ void task1()
         lastTime = millis();
         task1State = Task1States::WAIT_TIMEOUT;
 
-        Serial.print("Task1States::WAIT_TIMEOUT\n");
+        Serial.print("Task1States::WAIT_TIMEOUT\n"); //Imprimirá en el monitor serie
 
         break;
     }
@@ -54,12 +54,12 @@ void task1()
     }
 }
 
-void setup()
+void setup() //como se inicializa
 {
     task1();
 }
 
-void loop()
+void loop() //bucle
 {
     task1();
 }
