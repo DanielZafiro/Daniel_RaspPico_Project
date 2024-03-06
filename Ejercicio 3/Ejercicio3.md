@@ -76,7 +76,9 @@ DOS PERSONAS no pueden trabajar al mismo tiempo sobre el mismo archivo cuando el
 
 ## Solución Ejercicio 3
 
-**Conclusiones de la actividad 3** Inicialmente es necesario instalar el editor de codigos en este caso Arduino IDE, una vez instalada es importante que reconozca cual es board en la que vamos a trabajar como es un placa reconocida para ambitos educativos y profesionales vamos a instalarle un manejador(Raspberry PICO), luego debemos conectar la placa y en tools seleccionar en que puerto esta conectada, luego copiamos y pegamos el cogido en el editor con el codigo en 100, el LED parpadeaba muy rapido porque en la construccion del coddigo por intuicion la frecuencia entre mas cerca a cero mas rapida sera por lo tanto el LED en 100 parapderara muy rapido
+**Conclusiones de la actividad 3** 
+
+Inicialmente es necesario instalar el editor de codigos en este caso Arduino IDE, una vez instalada es importante que reconozca cual es board en la que vamos a trabajar como es un placa reconocida para ambitos educativos y profesionales vamos a instalarle un manejador(Raspberry PICO), luego debemos conectar la placa y en tools seleccionar en que puerto esta conectada, luego copiamos y pegamos el cogido en el editor con el codigo en 100, el LED parpadeaba muy rapido porque en la construccion del coddigo por intuicion la frecuencia entre mas cerca a cero mas rapida sera por lo tanto el LED en 100 parapderara muy rapido
 
 Que hace el codigo: 
 
@@ -89,7 +91,9 @@ https://github.com/vera-perez-upb/sfi-estudiantes-202310-DanielZafiro/assets/665
 
 ## Solución Ejercicio 3a
 
-**Conclusiones** Cuando cambiamos en el codigo la frecuencia de 100 a 500 el LED parpadeaba mucho mas lento.
+**Conclusiones** 
+
+Cuando cambiamos en el codigo la frecuencia de 100 a 500 el LED parpadeaba mucho mas lento.
 
 
 https://github.com/vera-perez-upb/sfi-estudiantes-202310-DanielZafiro/assets/66543657/344952cc-123d-444c-99e5-3ce490b1e180
