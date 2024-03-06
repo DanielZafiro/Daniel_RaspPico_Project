@@ -1,40 +1,33 @@
-### **Ejercicio 1: introducción**
+### **Ejercicio 10: monitor serial**
 
-**Advertencia**
+Para profundizar un poco más en el funcionamiento de los programas vas a usar una herramienta muy interesante llamada monitor o terminal serial. En este curso vas a utilizar ScriptCommunicator. La aplicación la puedes descargar de forma gratuita. Al instalarla en los computadores de la Universidad usa un directorio del usuario y deshabilita la creación de accesos directos en el escritorio y no asocies los archivos .js con ScriptCommunicator.
 
-RECUERDA LO QUE APRENDERÁS EN ESTE CURSO
+Para lanzar la aplicación abre el directorio donde la instalaste y lanza el programa ScriptCommunicator.exe
 
-En este curso aprenderás a construir aplicaciones interactivas que integren y envíen información desde y hacia el mundo exterior.
+Ingresa al menu Settings, selecciona la pestaña serial port y elige el puerto (el puerto asignado por el sistema operativo a tu sistema de desarrollo) y el BaudRate a 115200. Los demás parámetros los puedes dejar igual.
 
-¿Recuerdas que te mostré al iniciar el curso un trabajo de grado realizado por estudiantes del programa? Te voy a pedir que veas algunos segundos del video del DEMO de [este](https://tdaxis.github.io/demo.html) trabajo.
+Selecciona la pestaña console options y allí marca ÚNICAMENTE las opciones: utf8, receive, hex, mixed. En new line at byte coloca None y en Send on enter key coloca None.
 
-Déjame te hablo de nuevo de este sistema porque es un excelente resumen de lo que busco que aprendas con este curso.
+En la pestaña serial port ve a la sección general, selecciona como current interface `serial port`. Cierra la ventana de configuración.
 
-La idea de la aplicación es VARIAR las visuales y el audio con la información del movimiento que se captura en tiempo real de una bailarina.
+<aside>
+💡 **Advertencia**
 
-La imagen está dividida en 4 partes. En la esquina superior izquierda observarás   `LA APLICACIÓN INTERACTIVA` que está corriendo en un computador. Esta aplicación se encargará de proyectar las visuales que están en la esquina superior derecha y controlar el software de audio que está en la esquina inferior derecha. Observa la esquina inferior izquierda, allí verás una captura en tiempo real de los movimientos de una bailarina.
+</aside>
 
-¿Cómo se captura este movimiento? Se hace por medio de unos dispositivos que te mostraré en estos videos:
+IMPORTANTE
 
-- [Perception Neuron Trailer](https://youtu.be/v72P7q0sIXI).
-- [Bailarina controlando un metahumano](https://youtu.be/pynCWHD8RPg).
+No olvides que DEBES TENER conectado el sistema de desarrollo al computador para poder seleccionar el puerto correcto.
 
-Los dispositivos que llevan puestos las personas en los videos están compuestos por:
+Para conectar ScriptCommunicator al microcontrolador, solo tienes que dar click en Connect y para desconectar Disconnect.
 
-- Un sensor para medir el movimiento.
-- Un computador embebido o microcontrolador que lee la información del sensor.
-- Un radio de comunicación inalámbrica para transmitir la información leída.
+<aside>
+💡 **Advertencia**
 
-La información se le entrega al computador que ejecuta la aplicación interactiva usando un `PROTOCOLO DE COMUNICACIÓN`. El protocolo es un acuerdo que se establece entre las partes involucradas en la comunicación de tal manera que ambas puedan entenderse.
+</aside>
 
-¿Por qué te muestro todo esto?
+ESTO ES CRÍTICO
 
-Porque en este curso vamos a realizar un recorrido por los elementos que componen este tipo de aplicaciones.
+SOLO UNA APLICACIÓN puede comunicarse a la vez con el microcontrolador. Por tanto, SÓLO una aplicación puede abrir o conectarse al puerto serial que el sistema operativo le asigna al sistema de desarrollo.
 
-En esta unidad vas a programar un microcontrolador similar al que tienen los dispositivos de captura de movimiento. En las unidades 2 y 3 vas experimentar con dos tipos de protocolos de comunicación. Finalmente, en la unidad 4 construirás una aplicación simple que integre todos los elementos y lo que aprendiste en las unidades previas.
-
-**Advertencia**
-
-ESTO ES MUY IMPORTANTE
-
-Las aplicaciones que realizarás serán simples, PERO si lo analizas te darás cuenta que contienen todos los elementos necesarios para que entiendas cómo funcionan las aplicaciones que te mostré en los videos.
+Esto quiere decir que no puedes programar el raspberry mientras tienes abierto ScriptCommunicator conectado al puerto serial.
