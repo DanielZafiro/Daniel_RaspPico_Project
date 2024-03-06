@@ -130,3 +130,13 @@ Conclusiones:
 - En el estado `WAIT_TIMEOUT`, se verifica si ha pasado el intervalo de tiempo especificado desde la última acción.
 - Si han pasado aproximadamente 1000 milisegundos desde la última acción, imprime el tiempo actual en milisegundos en el Monitor Serie.
 - Los números en la salida representan el tiempo en milisegundos, y cada línea muestra un incremento de 1000 milisegundos.
+
+
+1. **¿Cómo se ejecuta este programa?**
+   - El programa utiliza una máquina de estados para controlar su ejecución. Al principio, se encuentra en el estado `INIT`. En este estado, se inicia la comunicación serie y se establecen valores iniciales. Luego, cambia al estado `WAIT_TIMEOUT`, donde permanece durante la ejecución continua del bucle principal (`loop()`). En el estado `WAIT_TIMEOUT`, verifica si ha pasado el intervalo de tiempo especificado y, si es así, imprime el tiempo actual en milisegundos en el Monitor Serie.
+
+2. **¿Pudiste ver este mensaje: `Serial.print("Task1States::WAIT_TIMEOUT\n");`? ¿Por qué crees que ocurre esto?**
+   - La línea `Serial.print("Task1States::WAIT_TIMEOUT\n");` está en el estado `INIT`, y se ejecuta solo una vez al inicio del programa, cuando la máquina de estados pasa de `INIT` a `WAIT_TIMEOUT`. Después de esa transición inicial, el programa permanece en el estado `WAIT_TIMEOUT`, donde imprime el tiempo actual en milisegundos. Por lo tanto, el mensaje solo se imprime una vez durante la inicialización.
+
+3. **¿Cuántas veces se ejecuta el código en el case `Task1States::INIT`?**
+   - El código en el caso `Task1States::INIT` se ejecuta una sola vez al inicio del programa, cuando la máquina de estados está en el estado `INIT`. Después de la ejecución de este caso, la máquina de estados cambia al estado `WAIT_TIMEOUT`, y no regresa al estado `INIT` durante la ejecución continua del programa en el bucle principal (`loop()`). Entonces el código en el caso `Task1States::INIT` se ejecuta una vez durante la inicialización del programa.
