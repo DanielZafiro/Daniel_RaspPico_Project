@@ -5,7 +5,7 @@ void setup() {
 }
 void loop() {
   Serial.print("Time: "); // Imprime el texto predecesor "Time: "
-  myTime = millis(); 
+  myTime = millis(); // Almacena en la variable myTime el tiempo en milisegundos transcurrido
 
   Serial.println(myTime); // Imprime el tiempo desde que el programa inició
   delay(1000);          // Espera un segundo  para no enviar cantidades de datos masivos 
