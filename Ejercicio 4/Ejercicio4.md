@@ -9,7 +9,21 @@ Recuerda que cada ejercicio lo trabajas en la carpeta que lleva su nombre dentro
 
 ## Solución
 
-**Conclusiones** de la actividad 4. Al cambiar el code de 500 a 1000 el LED parpadea aun mas lento 
+**Conclusiones** Al cambiar el code de 500 a 1000 el LED parpadea aun mas lento 
+
+El codigo sirve para controlar el LED incorporado en una placa de desarrollo Arduino o similar. La función `millis()` se utiliza para realizar un parpadeo del LED cada 500 milisegundos (medio segundo). cuando cambio el valor de 500 a 1000 pasa lo siguiente:
+
+1. **Cambio en la Frecuencia del Parpadeo:**
+   - Originalmente, el LED parpadea cada 500 milisegundos (medio segundo). Al cambiar el valor a 1000, el LED ahora parpadeará cada 1000 milisegundos (un segundo). Esto afectará la frecuencia del parpadeo del LED.
+
+2. **Ralentización del Parpadeo:**
+   - El aumento del valor a 1000 ralentizará el cambio de estado del LED. Ahora, el LED permanecerá encendido o apagado durante un segundo antes de cambiar de estado. Esto puede ser visualmente perceptible y afectará la apariencia del parpadeo.
+
+3. **Consumo de Recursos:**
+   - El código utiliza la función `millis()` para realizar el parpadeo sin bloquear el programa. Al cambiar el intervalo a 1000, el tiempo entre cambios de estado es más largo, lo que puede afectar el consumo de recursos y la respuesta a otras tareas del programa, si las hay.
+
+4. **Mayor Duración del Parpadeo:**
+   - El cambio a 1000 significa que el LED permanecerá en cada estado (encendido o apagado) durante un segundo completo. 
 
 https://github.com/vera-perez-upb/sfi-estudiantes-202310-DanielZafiro/assets/66543657/70407ec3-577c-454e-9b19-49e21597d80e
 
