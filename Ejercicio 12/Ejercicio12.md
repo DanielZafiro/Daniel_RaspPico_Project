@@ -29,7 +29,7 @@ void task1()
             Serial.read();
 
             uint32_t var = 0; // Declara la variable var inicializadad en 0
-	    uint32_t *pvar = &var; // Almacena en pvar la dirección de var.
+	    uint32_t *pvar = &var; // Declara un puntero pvar que apunta a la direccion var y Almacena en pvar la dirección de var.
 
             // Envía por el serial el contenido de var usando el apuntador pvar. 
             Serial.print("var content: ");
