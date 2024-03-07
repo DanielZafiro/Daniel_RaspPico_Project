@@ -18,11 +18,11 @@ Inicializamos la variable `state` en 0. Esta variable representa el estado actua
 En `void setup() { ... } ` Configuramos el entorno y  la comunicación serie a una velocidad de 115200 baudios. Esto se hace una sola vez al inicio del programa.
 
 ```cpp
-unsigned long startTime;
-int state = 0;
+unsigned long startTime; // almacenar el tiempo en milisegundos en el que se inicia cada estado
+int state = 0; // estado actual de la máquina de estados
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(115200); // velocidad de transferencia/comunicacion entre RaspPico y dispositivo conectado
 }
 ```
 
