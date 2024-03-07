@@ -79,4 +79,31 @@ Subido el codigo proporcionado al controlador:
 
 Probando la primera parte de la instrucción
 ![image](https://github.com/DanielZafiro/Daniel_RaspPico_Project/assets/66543657/9d6e3e20-6a40-4efc-a3e1-c5e470aaee3a)
+Analizemos el programa:
+
+En el estado INIT, se inicia la comunicación serial (`Serial.begin(115200)`) y luego la tarea pasa al estado WAIT_DATA.
+1. Entonces una vez inicializado el programa este entra al estado de esperando datos, este solo devolverá el mensaje "Hola computador" si recibe un dato en este caso una tecla + enviar en el scriptcommunicator,
+por lo tanto el evento que verifica si ha llegado algo por el puerto serial es el  `if (Serial.available() > 0)`  verifica si hay al menos un dato disponible en el puerto serial.
+
+Si hay datos disponibles, la tarea lee un byte en este caso un codigo ASCII (`Serial.read()`) y luego imprime el mensaje `"Hola computador"` en el Monitor Serie mediante `Serial.print()`
+
+   
+```cpp
+ case Task1States::WAIT_DATA:
+    {
+        // evento 1:        // Ha llegado al menos un dato por el puerto serial? 
+          if (Serial.available() > 0)
+        {
+            Serial.read();
+            Serial.print("Hola computador\n");
+        }
+        break;
+    }
+```
+
+Tablas del punto 2:
+
+![image](https://github.com/DanielZafiro/Daniel_RaspPico_Project/assets/66543657/df1fc557-fa75-4ab8-9299-e9ca23c28f1a)
+![image](https://github.com/DanielZafiro/Daniel_RaspPico_Project/assets/66543657/43f8980f-2d34-49ba-8580-0959df0a8862)
+
 
