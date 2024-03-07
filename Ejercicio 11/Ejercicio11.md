@@ -69,3 +69,14 @@ Ahora PIENSA:
 4. ¿Qué relación encuentras entre las letras y los números?
 5. ¿Qué es el 0a al final del mensaje y para qué crees que sirva?
 6. Nota que luego de verificar si hay datos en el puerto serial se DEBE HACER UNA LECTURA del puerto. Esto se hace para retirar del puerto el dato que llegó. Si esto no se hace entonces parecerá que siempre tiene un datos disponible en el serial para leer. ¿Tiene sentido esto? Si no es así habla con el profe.
+
+
+## Solución
+
+Subido el codigo proporcionado al controlador:
+
+![image](https://github.com/DanielZafiro/Daniel_RaspPico_Project/assets/66543657/6788dda4-a735-4815-851f-583aa2e5f36e)
+
+Probando la primera parte de la instrucción
+![image](https://github.com/DanielZafiro/Daniel_RaspPico_Project/assets/66543657/9d6e3e20-6a40-4efc-a3e1-c5e470aaee3a)
+
