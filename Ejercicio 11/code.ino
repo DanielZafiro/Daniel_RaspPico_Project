@@ -20,7 +20,7 @@ void task1()
         // evento 1:        // Ha llegado al menos un dato por el puerto serial? 
           if (Serial.available() > 0)
         {
-            Serial.read();
+            Serial.read(); // Leer para retirar el dato del buffer
             Serial.print("Hola computador\n");
         }
         break;
