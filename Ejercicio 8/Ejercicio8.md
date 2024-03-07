@@ -11,6 +11,29 @@ En el README.md del repositorio responde:
 
 ## Solución
 
+Diagrama de estados:
+![image](https://github.com/DanielZafiro/Daniel_RaspPico_Project/assets/66543657/a606940b-03fc-4e3a-986c-fe9f21907b1e)
+
+- ¿Cuáles son los estados del programa?
+
+Estados del Programa:
+
+Estado 0: Espera 1 segundo.
+
+Estado 1: Espera 2 segundos.
+
+Estado 2: Espera 3 segundos y luego reinicia al Estado 0.
+
+- ¿Cuáles son los eventos?
+
+Eventos: La transición entre estados se activa cuando ha pasado el tiempo especificado desde el inicio del estado actual. 1s, 2s, 3s.
+
+- ¿Cuáles son las acciones?
+
+Acciones: Se imprime un mensaje en el Monitor Serie cuando se realiza la transición entre estados.
+
+**Manos al codigo:**
+
 Declaramos una variable `startTime` como tipo `unsigned long`. Se utilizará para almacenar el tiempo en milisegundos en el que se inicia cada estado.
 
 Inicializamos la variable `state` en 0. Esta variable representa el estado actual de la máquina de estados. Cada número corresponde a un estado específico (en este caso 3 estados 0,1,2)
