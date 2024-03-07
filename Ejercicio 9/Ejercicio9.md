@@ -1,4 +1,4 @@
-Ejercicio 9: tareas concurrentes (evaluación formativa)
+### **Ejercicio 9: tareas concurrentes (evaluación formativa)**
 
 Para sacar el máximo provecho a la CPU de tu microcontrolador lo ideal es dividir el problema en varias tareas que se puedan ejecutar de manera concurrente. La arquitectura de software que te voy a proponer es esta:
 
