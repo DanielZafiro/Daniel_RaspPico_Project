@@ -322,3 +322,9 @@ Por ejemplo:
 - Si `pData[i]` es el carácter '0' (cuyo valor ASCII es 48), entonces `(pData[i] - 0x30)` sería igual a `48 - 48`, resultando en `0`.
 - Si `pData[i]` es el carácter '5' (cuyo valor ASCII es 53), entonces `(pData[i] - 0x30)` sería igual a `53 - 48`, resultando en `5`.
 
+
+![image](https://github.com/DanielZafiro/Daniel_RaspPico_Project/assets/66543657/6757fa85-da6b-448d-aec4-e5094ce21f87)
+
+![image](https://github.com/DanielZafiro/Daniel_RaspPico_Project/assets/66543657/db624f61-3a24-47a2-8b34-4ba3a1fcccfa)
+
+
