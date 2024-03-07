@@ -64,3 +64,29 @@ void loop()
     task1();
 }
 ```
+
+## Solución
+
+Mi hipotesis viendo el codigo sin inicializarlo en el controlador esque hay una tarea la cual va a devolver dos valores diferentes para `var` y será algo como esto:
+
+var content: 0
+
+var content: 10
+
+dado que una vez recibe un input del teclado en el scriptCommunicator se inicializa `var = 0` 
+y luego se declara un puntero `*pvar` hacia la direccion del `var` el cual almacena la direccion de `var` en `pvar`
+luego entra a la funcion `printVar(*pvar);` la cual imprime el valor actual de `var` que es `0`
+para luego entrar cambiar ese valor en la funcion `changeVar(pvar);` donde adquiere un nuevo valor `10` declarado por un puntero `*pdata = 10;`
+para finalmente imprimir el nuevo valor de `var = 10`
+
+además veo que creo dos funciones por fuera (`static void printVar(uint32_t value) `y` static void changeVar(uint32_t *pdata)`)que en ejercicios anteriores se hacian dentro del mismo loop en cada `case`
+
+Ahora veamos como funciona y si acaso funciona segun mi hipotesis:
+
+![image](https://github.com/DanielZafiro/Daniel_RaspPico_Project/assets/66543657/4a4dba0e-c4ed-4a9e-8d03-599da33ecf9a)
+
+var content: 0
+
+var content: 10
+
+conclusiones: sí estaba en lo correcto con analizar el codigo inicialmente
