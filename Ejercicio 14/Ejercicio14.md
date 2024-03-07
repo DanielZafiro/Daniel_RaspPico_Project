@@ -47,7 +47,7 @@ void task1()
             uint32_t var1 = 5; // Declara la variable var1 inicializadad en 5
             uint32_t var2 = 25; // Declara la variable var2 inicializadad en 25
 
-	          uint32_t *pvar1 = &var1; // Declara un puntero pvar1 que apunta a la direccion var1 y Almacena en pvar1 la dirección de var1
+	    uint32_t *pvar1 = &var1; // Declara un puntero pvar1 que apunta a la direccion var1 y Almacena en pvar1 la dirección de var1
             uint32_t *pvar2 = &var2; // Declara un puntero pvar2 que apunta a la direccion var2 y Almacena en pvar2 la dirección de var2
 
             // Envía por el serial el contenido de var usando el apuntador pvar. 
