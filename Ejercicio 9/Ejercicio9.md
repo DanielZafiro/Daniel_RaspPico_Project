@@ -363,4 +363,4 @@ este es el resultado:
 
 https://github.com/DanielZafiro/Daniel_RaspPico_Project/assets/66543657/d1e47445-30cd-4cc2-88db-421447e55197
 
-
+Me queda la duda de como hacer un diagrama de estados para este ejercicio
