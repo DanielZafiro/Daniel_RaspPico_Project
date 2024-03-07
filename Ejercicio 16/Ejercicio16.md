@@ -100,6 +100,14 @@ if(Serial.available() > 0){
 
 La función `Serial.read()` lee un único byte de datos del búfer de recepción del puerto serial. Si hay más de un byte disponible en el búfer, deberíamos llamar a `Serial.read()` varias veces para leer todos los datos presentes o mediante un ciclo `while`.
 
+```cpp
+if(Serial.available() >= 3){
+    int dataRx1 = Serial.read()
+    int dataRx2 = Serial.read()
+    int dataRx3 = Serial.read()
+}
+```
+
 - ¿Y si quiero leer más de un dato? No olvides que no se pueden leer más datos de los disponibles en el buffer de recepción porque no hay más datos que los que tenga allí.
 
 Si deseamos leer más de un dato y no sabemos cuántos datos están disponibles en el búfer de recepción, necesitamos asegurarnos de no intentar leer más datos de los que realmente están disponibles.
