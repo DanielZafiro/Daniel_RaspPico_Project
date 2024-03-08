@@ -199,8 +199,6 @@ imulamos la situación de desactivación de una bomba, donde se configura un tie
    - Se incluye la librería de Arduino dado que se trabajó en un IDE de Arduino actualizado y se define una enumeración `DefuseStates` que representa los diferentes estados del sistema.
   
 
-Claro, profundicemos en los aspectos que mencionaste:
-
 2. **Declaración de variables estáticas:**
 
 ```cpp
