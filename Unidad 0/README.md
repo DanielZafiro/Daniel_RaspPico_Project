@@ -779,3 +779,5 @@ Escribe lo que quieras en el archivo README.md, experimenta. No olvides sincroni
 Aquí podrás encontrar las presentaciones utilizadas en clase para reforzar los conceptos asociados con esta Unidad 0.
 
 [Presentación control de versiones](https://upbeduco-my.sharepoint.com/:b:/g/personal/vera_perez_upb_edu_co/EQoUS5diNc9Gvj6Rh3QFqo4BS_2Lk8BEY2V3epYGO0keEw?e=mWQCfO)
+
+© Derechos de autor 2023, Juan Franco. Revisión 42b38a74.
