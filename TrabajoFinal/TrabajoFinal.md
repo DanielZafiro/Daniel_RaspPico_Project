@@ -8,6 +8,8 @@ La misión del participante de la experiencia es salvar el mundo, por lo cual de
 
 Te dejo el siguiente material trabajado en clase como complemento a la información del trayecto de actividades.
 
+[Presentación de sistemas embebidose](https://upbeduco-my.sharepoint.com/:b:/g/personal/vera_perez_upb_edu_co/EaIafHzSSxFOmAdXvPJzVxIBcPcu_KEhUCUu-k56LJJ4GQ?e=UVVPgY) 
+
 ## Solución
 
 ```cpp
