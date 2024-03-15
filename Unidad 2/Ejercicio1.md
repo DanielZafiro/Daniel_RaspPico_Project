@@ -224,9 +224,9 @@ Al presionar B imprime que hermos recibido datos e imprime los datos recibidos c
 > - ¿Por qué es importante considerar las propiedades *PortName* y *BaudRate*?
 > - ¿Qué relación tienen las propiedades anteriores con el controlador?
 
-Es importante considerar el `PortName` ya que este es el puerto por el cual se está comunicando con el controlador y el `baudRate` velocidad en la que se van a comunicar entre sí
+Es importante considerar el `PortName` ya que este es el puerto por el cual se está comunicando con el controlador y el `BaudRate` velocidad en la que se van a comunicar entre sí
 
-la relación que tienen las propiedad son que la primera(`PortName`) define el nombre del puerto de comunicacion con el controlador y la segunda(`baudRate` ) la velocidad de comunicacion entre los dispositivos en bytes/baudios
+la relación que tienen las propiedad son que la primera(`PortName`) define el nombre del puerto de comunicacion con el controlador y la segunda(`BaudRate` ) la velocidad de comunicacion entre los dispositivos en bytes/baudios
 
 
 
