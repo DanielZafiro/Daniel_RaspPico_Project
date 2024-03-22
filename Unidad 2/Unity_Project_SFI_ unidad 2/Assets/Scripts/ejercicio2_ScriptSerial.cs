@@ -16,7 +16,7 @@ public class ejercicio2_ScriptSerial : MonoBehaviour // El nombre del archivo y 
 
     void Start()
     {
-        _serialPort.PortName = "COM9"; // Se establece el nombre del puerto serial a COM4 depende del puerto donde se conecte
+        _serialPort.PortName = "COM4"; // Se establece el nombre del puerto serial a COM4 depende del puerto donde se conecte
         _serialPort.BaudRate = 115200; // Se establece la velocidad de baudios en 115200
         _serialPort.DtrEnable = true; // Se habilita la señal DTR
         _serialPort.Open(); // Se abre el puerto serial
@@ -30,8 +30,11 @@ public class ejercicio2_ScriptSerial : MonoBehaviour // El nombre del archivo y 
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            byte[] data = { 0x31 };// or byte[] data = {'1'};            
+            byte[] data = { 0x31 };// or byte[] data = {'1'};
             _serialPort.Write(data, 0, 1);
+        }
+        if (_serialPort.BytesToRead > 0)
+        {
             int numData = _serialPort.Read(buffer, 0, 20);
             Debug.Log(System.Text.Encoding.ASCII.GetString(buffer));
             Debug.Log("Bytes received: " + numData.ToString());
