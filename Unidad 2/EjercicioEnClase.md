@@ -165,7 +165,7 @@ public class Serial : MonoBehaviour
     {
         // Inicialización del puerto serial
         _serialPort = new SerialPort();
-        _serialPort.PortName = "COM3";
+        _serialPort.PortName = "COM9";
         _serialPort.BaudRate = 115200;
         _serialPort.DtrEnable = true;
         _serialPort.Open();
