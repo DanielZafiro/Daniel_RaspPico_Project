@@ -4,7 +4,7 @@ using UnityEngine; // declaramos que vamos a usar UnityEngine y su entorno
 using System.IO.Ports; // declaramos que usaremos los puertos serie para comunicarnos con controladores 
 using TMPro;
 
-enum TaskState
+enum TaskStateMachine
 {
     INIT,
     WAIT_START,
@@ -13,7 +13,7 @@ enum TaskState
 
 public class ejercicio3_ScriptSerial : MonoBehaviour // El nombre del archivo y de la clase ejercicio1_ScriptSerial y hereda la clase Monobehaviour de Unity para poderlo anexar en el GameObject
 {
-    private static TaskState taskState = TaskState.INIT;
+    private static TaskStateMachine taskState = TaskStateMachine.INIT;
     private SerialPort _serialPort;
     private byte[] buffer;
     public TextMeshProUGUI myText;
@@ -37,26 +37,26 @@ public class ejercicio3_ScriptSerial : MonoBehaviour // El nombre del archivo y 
 
         switch (taskState)
         {
-            case TaskState.INIT:
-                taskState = TaskState.WAIT_START;
+            case TaskStateMachine.INIT:
+                taskState = TaskStateMachine.WAIT_START;
                 Debug.Log("WAIT START");
                 break;
-            case TaskState.WAIT_START:
+            case TaskStateMachine.WAIT_START:
                 if (Input.GetKeyDown(KeyCode.A))
                 {
                     byte[] data = { 0x31 };// start
                     _serialPort.Write(data, 0, 1);
                     Debug.Log("WAIT EVENTS");
-                    taskState = TaskState.WAIT_EVENTS;
+                    taskState = TaskStateMachine.WAIT_EVENTS;
                 }
                 break;
-            case TaskState.WAIT_EVENTS:
+            case TaskStateMachine.WAIT_EVENTS:
                 if (Input.GetKeyDown(KeyCode.B))
                 {
                     byte[] data = { 0x32 };// stop
                     _serialPort.Write(data, 0, 1);
                     Debug.Log("WAIT START");
-                    taskState = TaskState.WAIT_START;
+                    taskState = TaskStateMachine.WAIT_START;
                 }
                 if (_serialPort.BytesToRead > 0)
                 {

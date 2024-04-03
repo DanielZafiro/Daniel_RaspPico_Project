@@ -10,7 +10,7 @@ public class ejercicio1_ScriptSerial : MonoBehaviour // El nombre del archivo y 
 
     void Start()
     {
-        _serialPort.PortName = "COM9"; // Se establece el nombre del puerto serial a COM4 depende del puerto donde se conecte
+        _serialPort.PortName = "COM4"; // Se establece el nombre del puerto serial a COM4 depende del puerto donde se conecte
         _serialPort.BaudRate = 115200; // Se establece la velocidad de baudios en 115200
         _serialPort.DtrEnable = true; // Se habilita la señal DTR
         _serialPort.Open(); // Se abre el puerto serial
