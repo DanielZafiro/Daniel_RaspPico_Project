@@ -2,6 +2,16 @@
 
 ## Narrativa
 
+En plena era de los años 2010, donde los CDs compactos aún reinan en el mundo de la música, la tienda de música Bubble Pop se encuentra en el epicentro de la escena musical. Con su reputación como un oasis para los amantes de la música, Bubble Pop se convierte en el punto de encuentro para aquellos que buscan descubrir los últimos éxitos y las melodías más innovadoras.
+
+En este contexto, un artista visionario está a punto de lanzar su último álbum, pero antes de que las masas tengan acceso a él, desea que Bubble Pop ofrezca un adelanto exclusivo a sus visitantes más ávidos. Es aquí donde entra en juego el reproductor de música revolucionario diseñado especialmente para Bubble Pop.
+
+Este innovador reproductor no es simplemente un dispositivo convencional; es una herramienta de inmersión musical. Con la capacidad de establecer límites de reproducción temporal, los visitantes pueden saborear breves fragmentos de cada canción del álbum, despertando su curiosidad y dejándoles ansiando más.
+
+Pero la magia no se detiene aquí. El reproductor también ofrece la opción de ajustar la velocidad de reproducción, permitiendo a los oyentes experimentar la música a diferentes ritmos, desde el tranquilo compás de x1 hasta la emocionante aceleración de x3.
+
+Y como si fuera poco, la funcionalidad de cambio de orden de reproducción añade una capa adicional de emoción y sorpresa. ¿Cada Dos canciones seguidas? ¿Tres? ¿O quizás una secuencia única por dia de la semana? 
+
 ## Procedimiento
 
 Queremos un reproductor de música controlado por comandos enviados desde Unity a través del puerto serial al microcontrolador. 
