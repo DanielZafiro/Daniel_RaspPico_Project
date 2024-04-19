@@ -1,5 +1,5 @@
 #include <Arduino.h>
-
+ 
 enum State {
     STATE_OFF,
     STATE_SETUP,
@@ -7,13 +7,13 @@ enum State {
     STATE_PLAYING
 };
 State currentState = STATE_OFF;
-
+ 
 // Variables
 uint32_t volume = 0; // 0 is mute
 uint32_t volumeMax = 10;
 uint32_t trackDuration = 0;
 uint32_t selectedDuration = 0;
-uint32_t currentTrack = 1;
+uint32_t currentTrack = 0;
 uint32_t maxTrack = 10;
 uint32_t trackJump = 1;
 uint32_t volumeJump = 1;
@@ -21,7 +21,7 @@ uint32_t previousTime = 0;
 bool ledState = false;
 bool playerOn = false;
 unsigned long lastStateChange = 0;
-
+ 
 // Lista de canciones
 const char* songList[10] = {
     "1. Song One",
@@ -35,14 +35,14 @@ const char* songList[10] = {
     "9. Song Nine",
     "10. Song Ten"
 };
-
-
+ 
+ 
 void offState() {
     if (millis() - lastStateChange >= 3000) {
         Serial.println("Player is off Press O to turn ON");
         lastStateChange = millis();
     }
-
+ 
     if (Serial.available() > 0) {
         char command = Serial.read();
         if (command == 'O') {
@@ -51,21 +51,21 @@ void offState() {
         }
     }
 }
-
+ 
 void selectParametersState() {
     Serial.println("Welcome to Bubble Pop music player setup. Please enter the following parameters:");
     Serial.println("Track number (1-10):");
     while (Serial.available() == 0) {}
     uint32_t selectedTrack = Serial.parseInt();
     if (selectedTrack >= 1 && selectedTrack <= maxTrack) {
-        currentTrack = selectedTrack;
+        currentTrack = selectedTrack - 1;
         Serial.print("Initial track ");
         Serial.println(songList[currentTrack - 1]);
     } else {
         Serial.println("Invalid track number, defaulting to track 1");
         currentTrack = 1;
     }
-
+ 
     Serial.println("Next set Volume (0-10):");
     while (Serial.available() == 0) {}
     uint32_t selectedVolume = Serial.parseInt();
@@ -76,10 +76,10 @@ void selectParametersState() {
         Serial.println("Invalid volume value, defaulting to volume 0 (mute)");
         volume = 0;
     }
-
+ 
     Serial.println("Next set the Track duration (5-180 seconds):");
     while (Serial.available() == 0) {}
-    uint32_t selectedDuration = Serial.parseInt();
+    selectedDuration = Serial.parseInt();
     if (selectedDuration >= 5 && selectedDuration <= 180) {
         trackDuration = selectedDuration;
         Serial.println("Track duration set to " + String(trackDuration) + " seconds");
@@ -87,10 +87,10 @@ void selectParametersState() {
         Serial.println("Invalid duration value, defaulting to 5 seconds");
         trackDuration = 5;
     }
-
+ 
     currentState = STATE_PLAYING;
 }
-
+ 
 void task() {
     if (Serial.available() > 0) {
         char command = Serial.read();
@@ -124,7 +124,7 @@ void task() {
             case 'D': // Adjust track duration
                 if (Serial.available() >= 1) {
                     uint32_t newDuration = Serial.parseInt();
-                    if (newDuration >= 5 && newDuration <= 180) {
+                    if (newDuration >= 0 && newDuration <= 180) {
                         trackDuration = newDuration;
                         Serial.println("Track duration set to " + String(trackDuration) + " seconds");
                     } else {
@@ -138,39 +138,46 @@ void task() {
         }
     }
 }
-
+ 
 void playingState() {
-  if (playerOn && currentState == STATE_PLAYING) {
+  if (playerOn) {
     task();
-    if (trackDuration > 0) {
+    if (currentState == STATE_PLAYING){
+      if (trackDuration > 0) {
         trackDuration--;
         Serial.println("Track duration: " + String(trackDuration) + " seconds");
-    } else {
-            // Cambiar al estado de configuración para seleccionar la próxima canción
-            currentState = STATE_SETUP;
-            currentTrack++; // Pasar a la siguiente canción
-            if (currentTrack > maxTrack) {
-                currentTrack = 1; // Volver a la primera canción si llegamos al final de la lista
-            }
-            return; // Salir de la función para evitar seguir imprimiendo el nombre de la canción
-    }
-            delay(1000);
-            // Enviar información de la canción actual solo una vez al comienzo de la canción
-            Serial.print("Current song: ");
-            Serial.println(songList[currentTrack - 1]);
-            
+      } 
+      delay(1000);
+
+      if (trackDuration == 0){
+        currentTrack++;
+        //songList[currentTrack + 1];
+        volume += volumeJump;
+        trackDuration = selectedDuration;
+
+        if (currentTrack >= maxTrack){
+          currentTrack = 0;
+        }
+        
+      } 
+    
+ 
+    // Enviar información de la canción actual
+    Serial.print("Current song: ");
+    Serial.println(songList[currentTrack]);
     } else {
         currentState = STATE_SETUP; // Volver al estado de configuración
     }
-
+ 
 }
-
+}
+ 
 void setup() {
     Serial.begin(115200);
     pinMode(LED_BUILTIN, OUTPUT);
     currentState = STATE_OFF;
 }
-
+ 
 void loop() {
     switch (currentState) {
         case STATE_OFF:
@@ -183,7 +190,7 @@ void loop() {
             playingState();
             break;
     }
-    
+ 
     // Mantener el LED parpadeando a 1 Hz
     uint32_t currentTime = millis();
     if ((currentTime - previousTime) >= 500) { // Parpadeo cada 500 milisegundos (0.5 segundos)
