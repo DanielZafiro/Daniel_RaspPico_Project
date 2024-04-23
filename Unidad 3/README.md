@@ -181,9 +181,9 @@ basados en el material del manual del dispositivo. Las partes en el protocolo bi
    - Un protocolo binario define la estructura de los mensajes, incluidos los encabezados, los datos y, a veces, los códigos de control de errores.
 
 2. **¿Puedes describir las partes de un mensaje?**
-   - Encabezado: Es la parte inicial del mensaje que contiene información sobre la naturaleza y la longitud del mensaje. Puede incluir también información de control, como la dirección del destinatario o el tipo de datos que se envían.
-   - Cuerpo de datos: Es la parte central del mensaje que contiene la información real que se está transmitiendo, como valores numéricos, datos de sensor, comandos, etc.
-   - Código de comprobación de errores: Opcionalmente, un mensaje binario puede incluir un código de comprobación de errores para detectar errores de transmisión y garantizar la integridad de los datos.
+   - **Encabezado:** Es la parte inicial del mensaje que contiene información sobre la naturaleza y la longitud del mensaje. Puede incluir también información de control, como la dirección del destinatario o el tipo de datos que se envían.
+   - **Cuerpo de datos:** Es la parte central del mensaje que contiene la información real que se está transmitiendo, como valores numéricos, datos de sensor, comandos, etc.
+   - **Código de comprobación de errores:** Opcionalmente, un mensaje binario puede incluir un código de comprobación de errores para detectar errores de transmisión y garantizar la integridad de los datos.
 
 3. **¿Para qué sirve cada parte del mensaje?**
    - Encabezado: Sirve para identificar y controlar el flujo de datos, incluyendo información relevante para la interpretación del mensaje por parte del receptor, como la dirección del destinatario o el tipo de datos que se están enviando.
@@ -192,7 +192,336 @@ basados en el material del manual del dispositivo. Las partes en el protocolo bi
 
 En resumen, un protocolo binario se compone de un encabezado que proporciona información sobre el mensaje, un cuerpo de datos que contiene la información principal y opcionalmente un código de comprobación de errores para garantizar la integridad de los datos. Cada parte del mensaje cumple una función específica en el proceso de comunicación entre dispositivos electrónicos.
 
+---
+
+### **Ejercicio 2: experimento**
+
+En [este](https://www.arduino.cc/reference/en/language/functions/communication/serial/) enlace vas a mirar los siguientes métodos. Te pediré que, por favor, los tengas a mano porque te servirán para resolver problemas. Además, en este punto, hagamos un repaso de las funciones que han apoyado la comunicación seral:
+
+<aside>
+  
+💡 `Serial.available()`
+
+`Serial.read()`
+
+`Serial.readBytes(buffer, length)`
+
+`Serial.write()`
+
+</aside>
+
+Nótese que la siguiente función no está en la lista de repaso:
+
+<aside>
+  
+💡 **`Serial.readBytesUntil()`**
+
+</aside>
+
+¿Sospecha por qué se ha excluido? La razón es porque en un protocolo binario usualmente no tiene un carácter de FIN DE MENSAJE, como si ocurre con los protocolos ASCII, donde usualmente el último carácter es el `\n`.
+
+- `Serial.available()`: Esta función devuelve el número de bytes disponibles para leer en el búfer de entrada.
+
+- `Serial.read()`: Lee el siguiente byte de datos del puerto serie (el primer byte disponible).
+
+- `Serial.readBytes(buffer, length)`: Lee caracteres desde el búfer del puerto serie en un arreglo de bytes hasta que se lee el número especificado de caracteres.
+
+- `Serial.write()`: Envía datos binarios a través del puerto serie.
+
+Y la funcion excluida: La razón es porque en un protocolo binario usualmente no tiene un carácter de FIN DE MENSAJE, como si ocurre con los protocolos ASCII, donde usualmente el último carácter es el `\n`.
+
+- `Serial.readBytesUntil()`: Lee caracteres desde el búfer del puerto serie en un arreglo de bytes hasta que se lee un carácter delimitador o hasta que se alcanza el tamaño máximo del búfer.
+
+---
+
+### Ejercicio 3: **¿Qué es el *endian*?**
+
+Cuando trabajamos con protocolos binarios es necesario transmitir variables que tienen una longitud mayor a un byte. Por ejemplo, los números en punto flotante cumplen con el [estándar IEEE754](https://www.h-schmidt.net/FloatConverter/IEEE754.html) y se representan con 4 bytes.
+
+Algo que debemos decidir al trabajar con números como los anteriormente descritos es el orden en el cual serán transmitidos sus bytes. En principio tenemos dos posibilidades: i) transmitir primero el byte de menor peso (*little endian*) o transmitir primero el byte de mayor peso (*big endian*). Por lo tanto, al diseñar un protocolo binario se debe escoger una de las dos posibilidades.
+
+La presentación trabajada en clase sobre como se determinan los numeros para cumplir las reglas se encuentra a continuación:
+
+[02 Sistemas numéricos_v22_sol.pdf](https://upbeduco-my.sharepoint.com/:b:/g/personal/vera_perez_upb_edu_co/EfFkGLGlfolCneLd-WE-LlwByt-a6iWAQafw40zuGaZC-Q?e=IRCh2t)
+
+En el contexto de la informática y la comunicación de datos, el término "endian" se refiere al orden en el que se almacenan los bytes de datos en la memoria de un sistema computacional. Hay dos formas principales de ordenar los bytes: "big endian" y "little endian".
+
+- **Big Endian**: En este formato, el byte más significativo (el byte de mayor peso) se almacena en la dirección de memoria más baja (el primer byte), mientras que el byte menos significativo (el byte de menor peso) se almacena en la dirección de memoria más alta (el último byte).
+
+- **Little Endian**: En este formato, el byte menos significativo se almacena en la dirección de memoria más baja (el primer byte), mientras que el byte más significativo se almacena en la dirección de memoria más alta (el último byte).
+
+La elección entre big endian y little endian es crucial cuando se trabaja con datos que abarcan múltiples bytes, como números enteros de más de un byte, números en punto flotante, etc. La forma en que se almacenan estos datos determinará cómo se interpretan correctamente cuando se transmiten o se leen en diferentes sistemas.
+
+Por ejemplo, si un sistema envía datos en formato big endian y otro sistema espera recibirlos en formato little endian, los datos pueden interpretarse incorrectamente debido a que los bytes se interpretarán en orden inverso.
+
+Por lo tanto, al diseñar un protocolo binario, es importante especificar explícitamente qué formato endian se utilizará para garantizar la interoperabilidad entre diferentes sistemas.
+
+
+---
+
+## **Ejercicio 4: transmitir números en punto flotante**
+
+<aside>
+  
+💡 **¡Desempolva ScriptCommunicator!**
+
+Para este ejercicio vas a necesitar una herramienta que te permita ver los bytes que se están transmitiendo sin interpretarlos como caracteres ASCII. Usa **ScriptCommunicator** en los sistemas operativos Windows o Linux y **CoolTerm** en el sistema operativo MacOS (te soporta la arquitectura Mx).
+
+</aside>
+
+¿Cómo transmitir un número en punto flotante? Veamos dos alternativas:
+
+Opción 1:
+
+- En esta opción, el número en punto flotante `num` se transmite directamente como un puntero a un array de bytes (`uint8_t *`) utilizando `Serial.write()`.
+  
+- No se utiliza un buffer explícito, sino que se transmite directamente la representación en bytes del número en punto flotante.
+
+```c
+void setup() {
+    Serial.begin(115200);
+}
+
+void loop() {
+    // 45 60 55 d5
+    // https://www.h-schmidt.net/FloatConverter/IEEE754.html
+    static float num = 3589.3645;
+
+    if(Serial.available()){
+        if(Serial.read() == 's'){
+            Serial.write ( (uint8_t *) &num,4);
+        }
+    }
+}
+```
+
+
+Opción 2. Aquí primero se copia la información que se desea transmitir a un buffer o arreglo:
+
+- Aquí se utiliza un buffer explícito `arr` para almacenar la representación en bytes del número en punto flotante.
+
+- Se copia la representación en bytes del número en punto flotante desde la memoria donde se almacena `num` al buffer `arr` utilizando `memcpy()`.
+
+- Luego, se transmite el contenido del buffer `arr` utilizando `Serial.write()`.
+
+```c
+void setup() {
+    Serial.begin(115200);
+}
+
+void loop() {
+// 45 60 55 d5// https://www.h-schmidt.net/FloatConverter/IEEE754.htmlstatic
+float num = 3589.3645;
+static uint8_t arr[4] = {0};
+
+if(Serial.available()){
+if(Serial.read() == 's'){
+            memcpy(arr,(uint8_t *)&num,4);
+            Serial.write(arr,4);
+        }
+    }
+}
+```
+
+La principal diferencia radica en cómo se gestiona la transmisión de los bytes que representan el número en punto flotante: directamente desde la memoria del número (`Opción 1`) o a través de un buffer intermedio (`Opción 2`).
+
+Preguntas:
+
+- ¿En qué *endian* estamos transmitiendo el número?
+
+Ambas opciones no especifican explícitamente el endian en el que se está transmitiendo el número en punto flotante. El endian dependerá del endian nativo del microcontrolador o del sistema en el que se está ejecutando el código.
+
+En la mayoría de los casos, el endian utilizado será el endian nativo del microcontrolador o del sistema. Por ejemplo:
+
+- Si el microcontrolador o sistema utiliza little endian, entonces los bytes se transmitirán en little endian.
+- Si el microcontrolador o sistema utiliza big endian, entonces los bytes se transmitirán en big endian.
+
+Para determinar el endian utilizado en tu sistema específico, puedes consultar la documentación del microcontrolador o del sistema, o realizar pruebas prácticas para verificar el orden en el que se transmiten los bytes. Si necesitas que los bytes se transmitan en un endian específico, deberás realizar conversiones explícitas para asegurarte de que se transmitan en el orden correcto. Esto puede ser especialmente importante si estás transmitiendo datos entre sistemas con diferentes endians.
 
 Opcion 1 Ejercicio 4
-
 ![image](https://github.com/DanielZafiro/Daniel_RaspPico_Project/assets/66543657/78072cb9-b09c-4bbc-b7d2-5d2861a03d58)
+
+- La representación hexadecimal de 3589.3645 en el estándar IEEE754 es `45 60 55 d5`.
+- Al probar el código de la opción 1, la secuencia de bytes recibida a través de la comunicación serial fue `d5 55 60 45`.
+
+en ambas opciones, la secuencia de bytes recibida sigue siendo `d5 55 60 45`, lo que sugiere que el endian utilizado es **little endian**, ya que los bytes se están transmitiendo en orden inverso al esperado.
+
+Dado que tanto la Opción 1 como la Opción 2 están produciendo el mismo resultado, es probable que el microcontrolador o el sistema en el que estás ejecutando el código utilice little endian por defecto para la transmisión de datos a través de la comunicación serial.
+
+nota: Si se necesita que los bytes se transmitan en big endian, deberiamos realizar una conversión explícita para invertir el orden de los bytes antes de enviarlos a través de la comunicación serial. Por ejemplo, se podría invertir el orden de los bytes en el buffer antes de transmitirlos.
+
+- Y si queremos transmitir en el *endian* contrario, ¿Cómo se modifica el código?
+
+Pausa… A continuación, te dejo una posible solución a la pregunta anterior.
+
+```c
+void setup() {
+    Serial.begin(115200);
+}
+
+void loop() {
+    // Número en punto flotante que se desea transmitir
+    // 45 60 55 d5
+    // https://www.h-schmidt.net/FloatConverter/IEEE754.htmlstatic
+    float num = 3589.3645;
+    
+    // Buffer para almacenar la representación en bytes del número
+    static uint8_t arr[4] = {0};
+
+    if (Serial.available()) {
+        if (Serial.read() == 's') {
+            // Copiar la representación de bytes del número al buffer
+            memcpy(arr, (uint8_t *)&num, 4);
+            
+            // Invertir el orden de los bytes en el buffer antes de transmitirlos
+            for (int8_t i = 3; i >= 0; i--) { // Iteramos desde el último byte hasta el primero
+                Serial.write(arr[i]); // Transmitimos los bytes en orden inverso (big endian)
+            }
+        }
+    }
+}
+
+```
+
+Basados en la Opcion 1 para transmitir en el endian contrario **Inviritiendo el orden de lo bytes antes de transmitirilos**:
+
+```cpp
+void setup() {
+    Serial.begin(115200);
+}
+
+void loop() {
+    // 45 60 55 d5
+    // https://www.h-schmidt.net/FloatConverter/IEEE754.htmlstatic
+
+    static float num = 3589.3645;
+
+    if (Serial.available()) {
+        if (Serial.read() == 's') {
+            // Invertir el orden de los bytes antes de transmitirlos
+            uint8_t bytes[sizeof(float)]; // Creamos un buffer para almacenar los bytes del número
+            memcpy(bytes, (uint8_t *)&num, sizeof(float)); // Copiamos la representación de bytes del número al buffer
+            for (int i = 0; i < sizeof(float) / 2; i++) { // Iteramos sobre la mitad del tamaño del número
+                uint8_t temp = bytes[i]; // Guardamos el byte actual en una variable temporal
+                bytes[i] = bytes[sizeof(float) - i - 1]; // Intercambiamos el byte actual con su correspondiente opuesto en el buffer
+                bytes[sizeof(float) - i - 1] = temp; // Asignamos el byte opuesto al lugar del byte actual
+            }
+            Serial.write(bytes, sizeof(float)); // Transmitimos los bytes invertidos
+        }
+    }
+}
+
+```
+
+Basados en la Opcion 2 para transmitir en el endian contrario **Copiando la representacion de bytes a un buffer y luego invirtiendolos en el buffer**:
+
+```cpp
+void setup() {
+    Serial.begin(115200);
+}
+
+void loop() {
+     // 45 60 55 d5
+     // https://www.h-schmidt.net/FloatConverter/IEEE754.htmlstatic
+
+    static float num = 3589.3645;
+    static uint8_t arr[sizeof(float)] = {0};
+
+    if (Serial.available()) {
+        if (Serial.read() == 's') {
+            // Copiar la representación de bytes a un buffer
+            memcpy(arr, (uint8_t *)&num, sizeof(float));
+            // Invertir el orden de los bytes en el buffer
+            for (int i = 0; i < sizeof(float) / 2; i++) {
+                uint8_t temp = arr[i];
+                arr[i] = arr[sizeof(float) - i - 1];
+                arr[sizeof(float) - i - 1] = temp;
+            }
+            // Transmitir los bytes invertidos
+            Serial.write(arr, sizeof(float));
+        }
+    }
+}
+
+```
+
+---
+
+### **Ejercicio 5: envía tres números en punto flotante**
+
+Ahora te voy a pedir que practiques. La idea es que transmitas dos números en punto flotante en ambos *endian*.
+
+Para enviar dos números en punto flotante en ambos endian, podemos utilizar un enfoque similar al utilizado en el ejercicio 4, pero esta vez vamos a enviar dos números en lugar de uno. 
+
+- El codigo primero transmite los bytes en el orden original (little endian) y luego los transmite nuevamente en el orden inverso (big endian).
+
+asumimos que estamos trabajando en un entorno donde se utiliza **little endian por defecto**. Si necesitaramos adaptar el código para trabajar en un entorno con big endian por defecto, simplemente intercambiariamos el orden de los bucles que transmiten los bytes en big endian y los bytes en little endian.
+
+```cpp
+void setup() {
+    Serial.begin(115200);
+}
+
+void loop() {
+    // Dos números en punto flotante que se desean transmitir
+    float num1 = 3589.3645;
+    float num2 = -1234.5678;
+    
+    // Buffer para almacenar la representación en bytes de los números
+    static uint8_t arr1[4] = {0};
+    static uint8_t arr2[4] = {0};
+
+    if (Serial.available()) {
+        if (Serial.read() == 's') {
+            // Copiar la representación de bytes de los números al buffer
+            memcpy(arr1, (uint8_t *)&num1, 4);
+            memcpy(arr2, (uint8_t *)&num2, 4);
+            
+            // Transmitir los bytes en orden original (little endian)
+            Serial.write(arr1, 4);
+            Serial.write(arr2, 4);
+            
+            // Invertir el orden de los bytes antes de transmitirlos (big endian)
+            for (int8_t i = 3; i >= 0; i--) {
+                Serial.write(arr1[i]);
+            }
+            for (int8_t i = 3; i >= 0; i--) {
+                Serial.write(arr2[i]);
+            }
+        }
+    }
+}
+
+```
+
+---
+
+### En este punto me pregunto 
+  - ¿Por qué son importantes los protocolos binarios a diferencia de los protocolos ASCII? 
+  - ¿Cuál es más utilizado? 
+  - ¿Por qué es importante saber utilizar los dos?
+  - siento que los protocolos binarios son más complicados que los ASCII
+
+  Los protocolos binarios son importantes en comparación con los protocolos ASCII por varias razones:
+
+1. **Eficiencia en el ancho de banda**: Los protocolos binarios transmiten datos en su forma cruda, es decir, en forma de bytes, lo que significa que no hay necesidad de codificar los datos en caracteres ASCII. Esto reduce la sobrecarga de la comunicación y puede ser más eficiente en términos de ancho de banda, especialmente cuando se transmiten grandes cantidades de datos.
+
+2. **Mayor rango de valores**: Los protocolos binarios pueden representar un rango más amplio de valores numéricos y estructuras de datos complejas en comparación con los protocolos ASCII, que están limitados a caracteres imprimibles y algunos caracteres especiales.
+
+3. **Velocidad de transmisión**: Debido a su formato crudo, los protocolos binarios pueden ser procesados más rápidamente por los dispositivos receptores en comparación con los protocolos ASCII, que requieren un paso adicional de codificación y decodificación.
+
+4. **Seguridad**: Los protocolos binarios pueden ofrecer un mayor nivel de seguridad al transmitir datos, ya que la información se envía de forma más directa y no está sujeta a la interpretación errónea de caracteres especiales.
+
+Sin embargo, los protocolos ASCII también tienen sus propias ventajas:
+
+1. **Interoperabilidad**: Los protocolos ASCII son más fáciles de leer e interpretar para los humanos, lo que los hace ideales para la comunicación entre dispositivos heterogéneos y para la depuración de comunicaciones.
+
+2. **Facilidad de implementación**: Debido a su simplicidad, los protocolos ASCII son más fáciles de implementar y depurar en comparación con los protocolos binarios, que requieren una gestión más cuidadosa de los bytes y bits.
+
+3. **Compatibilidad**: Algunos sistemas heredados o dispositivos pueden requerir comunicación en formato ASCII debido a limitaciones de hardware o software.
+
+Es importante saber utilizar ambos tipos de protocolos porque cada uno tiene sus propias aplicaciones y ventajas. Los protocolos binarios son ideales cuando se requiere eficiencia en el ancho de banda, velocidad y seguridad, mientras que los protocolos ASCII son útiles para la interoperabilidad, la facilidad de implementación y la compatibilidad con sistemas heredados. La elección del protocolo adecuado dependerá de los requisitos específicos de aplicación en desarrollo y del entorno en el que se esté trabajando. Aunque los protocolos binarios pueden parecer más complicados, con práctica y comprensión de los conceptos subyacentes, se pueden utilizar eficazmente para satisfacer las necesidades de la aplicación.
+
+---
+
+
