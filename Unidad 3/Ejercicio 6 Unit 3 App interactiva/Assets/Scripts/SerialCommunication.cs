@@ -42,5 +42,6 @@ public class SerialCommunication : MonoBehaviour
             string state = System.Text.Encoding.UTF8.GetString(buffer);
             lampStateText.text = "Lamp State: " + state;
         }
+        
     }
 }
