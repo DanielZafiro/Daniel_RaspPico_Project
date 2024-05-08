@@ -26,11 +26,11 @@ void setup() {
 }
 
 void loop() {
-if(Serial.available()){
-if(Serial.read() == '1'){
-      Serial.print("Hello from Raspberry Pi Pico");
-    }
-  }
+	if(Serial.available()){
+	if(Serial.read() == '1'){
+	Serial.print("Hello from Raspberry Pi Pico");
+		}
+	}
 }
 ```
 
@@ -50,41 +50,35 @@ Crea un nuevo C# Script y un Game Object. Añade el Script al GameObject. Ve al 
 ```csharp
 using UnityEngine;
 using System.IO.Ports;
+
 public class Serial : MonoBehaviour
 {
-private SerialPort _serialPort =new SerialPort();
-private byte[] buffer =new byte[32];
 
-void Start()
-    {
-        _serialPort.PortName = "COM3";
-        _serialPort.BaudRate = 115200;
-        _serialPort.DtrEnable =true;
-        _serialPort.Open();
-        Debug.Log("Open Serial Port");
-    }
-
-void Update()
-    {
-
-				if (Input.GetKeyDown(KeyCode.A))
-        {
-            byte[] data = {0x31};// or byte[] data = {'1'};            
-						_serialPort.Write(data,0,1);
-            Debug.Log("Send Data");
-        }
-
-				if (Input.GetKeyDown(KeyCode.B))
-        {
-						if (_serialPort.BytesToRead >= 16)
-            {
-                _serialPort.Read(buffer, 0, 20);
-                Debug.Log("Receive Data");
-                Debug.Log(System.Text.Encoding.ASCII.GetString(buffer));
-            }
-        }
-
-    }
+	private SerialPort _serialPort = new SerialPort();
+	private byte[] buffer = new byte[32];
+	
+	void Start() {
+	        _serialPort.PortName = "COM3";
+	        _serialPort.BaudRate = 115200;
+	        _serialPort.DtrEnable =true;
+	        _serialPort.Open();
+	        Debug.Log("Open Serial Port");
+	}
+	
+	void Update(){
+		if (Input.GetKeyDown(KeyCode.A)) {
+			byte[] data = {0x31};// or byte[] data = {'1'};            
+			_serialPort.Write(data,0,1);
+			Debug.Log("Send Data");
+		}
+		if (Input.GetKeyDown(KeyCode.B)) {
+			if (_serialPort.BytesToRead >= 16) {
+				_serialPort.Read(buffer, 0, 20);
+				Debug.Log("Receive Data");
+				Debug.Log(System.Text.Encoding.ASCII.GetString(buffer));
+			}
+		}
+	}
 }
 ```
 
@@ -120,21 +114,19 @@ public class Serial : MonoBehaviour
 
 	private static int counter = 0;
 
-	void Start()
-    {
+	void Start() {
         _serialPort.PortName = "COM3";
         _serialPort.BaudRate = 115200;
         _serialPort.DtrEnable =true;
         _serialPort.Open();
         Debug.Log("Open Serial Port");
-    }
+	}
 
-void Update()
-    {
+void Update() {
         myText.text = counter.ToString();
         counter++;
 
-				if (Input.GetKeyDown(KeyCode.A))
+	if (Input.GetKeyDown(KeyCode.A))
         {
             byte[] data = {0x31};// or byte[] data = {'1'};            
 						_serialPort.Write(data,0,1);
@@ -161,21 +153,17 @@ A continuación, debes adicionar a la aplicación un elemento de GUI tipo *Text 
 Y la aplicación del controlador:
 
 ```cpp
-void setup()
-{
-		Serial.begin(115200);
+void setup() {
+	Serial.begin(115200);
 }
 
-void loop()
-{
-		if(Serial.available())
-		{
-				if(Serial.read() == '1')
-				{
-			      delay(3000);
-			      Serial.print("Hello from Raspi");
-				}
+void loop() {
+	if(Serial.available()) {
+		if(Serial.read() == '1') {
+		      delay(3000);
+		      Serial.print("Hello from Raspi");
 		}
+	}
 }
 ```
 
@@ -195,39 +183,35 @@ using TMPro;
 
 public class Serial : MonoBehaviour
 {
-		private SerialPort _serialPort =new SerialPort();
-		private byte[] buffer =new byte[32];
-
-		public TextMeshProUGUI myText;
-
-		private static int counter = 0;
-
-		void Start()
-		{
-		    _serialPort.PortName = "COM3";
-		    _serialPort.BaudRate = 115200;
-        _serialPort.DtrEnable =true;
-        _serialPort.Open();
-        Debug.Log("Open Serial Port");
+	private SerialPort _serialPort = new SerialPort();
+	private byte[] buffer = new byte[32];
+	
+	public TextMeshProUGUI myText;
+	
+	private static int counter = 0;
+	
+	void Start() {
+		_serialPort.PortName = "COM3";
+		_serialPort.BaudRate = 115200;
+		_serialPort.DtrEnable =true;
+		_serialPort.Open();
+		Debug.Log("Open Serial Port");
+	}
+	
+	void Update() {
+		myText.text = counter.ToString();
+		counter++;
+		
+		if (Input.GetKeyDown(KeyCode.A)) {
+		byte[] data = {0x31};// or byte[] data = {'1'};
+		_serialPort.Write(data,0,1);
 		}
-
-		void Update()
-		{
-        myText.text = counter.ToString();
-        counter++;
-
-				if (Input.GetKeyDown(KeyCode.A))
-				{
-            byte[] data = {0x31};// or byte[] data = {'1'};
-            _serialPort.Write(data,0,1);
-        }
-				if (_serialPort.BytesToRead > 0)
-			  {
-	          int numData = _serialPort.Read(buffer, 0, 20);
-            Debug.Log(System.Text.Encoding.ASCII.GetString(buffer));
-            Debug.Log("Bytes received: " + numData.ToString());
-        }
-		}
+		if (_serialPort.BytesToRead > 0) {
+		int numData = _serialPort.Read(buffer, 0, 20);
+		Debug.Log(System.Text.Encoding.ASCII.GetString(buffer));
+		Debug.Log("Bytes received: " + numData.ToString());
+	}
+}
 
 ```
 
@@ -248,71 +232,56 @@ Nótese que en los dos ejercicios anteriores, el PC primero le pregunta al contr
 Realiza el siguiente experimento. Programa ambos códigos y analiza su funcionamiento.
 
 ```cpp
-void task()
-{
-		enum class TaskStates
-		{
-				INIT,
-				WAIT_INIT,
-				SEND_EVENT
-		};
-		static TaskStates taskState = TaskStates::INIT;
-		static uint32_t previous = 0;
-		static u_int32_t counter = 0;
+void task() {
+	enum class TaskStates {
+	INIT,
+	WAIT_INIT,
+	SEND_EVENT
+	};
 
-		switch (taskState)
-		{
-				case TaskStates::INIT:
-				{
-						Serial.begin(115200);
-						taskState = TaskStates::WAIT_INIT;
-						break;
-				}
-				case TaskStates::WAIT_INIT:
-				{
-						if (Serial.available() > 0)
-						{
-								if (Serial.read() == '1')
-								{
-										previous = 0; // Force to send the first value immediately
-										taskState = TaskStates::SEND_EVENT;
-								}
-						}
-						break;
-				}
-				case TaskStates::SEND_EVENT:
-				{
-						uint32_t current = millis();
-						if ((current - previous) > 2000)
-						{
-								previous = current;
-								Serial.print(counter);
-								counter++;
-						}
-						if (Serial.available() > 0)
-						{
-							  if (Serial.read() == '2')
-							  {
-								    taskState = TaskStates::WAIT_INIT;
-							  }
-						}
-						break;
-				}
-				default:
-				{
-						break;
-				}
+	static TaskStates taskState = TaskStates::INIT;
+	static uint32_t previous = 0;
+	static u_int32_t counter = 0;
+	
+	switch (taskState) {
+		case TaskStates::INIT: {
+			Serial.begin(115200);
+			taskState = TaskStates::WAIT_INIT;
+			break;
 		}
+		case TaskStates::WAIT_INIT: {
+			if (Serial.available() > 0) {
+				if (Serial.read() == '1') {
+				previous = 0; // Force to send the first value immediately
+				taskState = TaskStates::SEND_EVENT;
+				}
+			} break;
+		}
+		case TaskStates::SEND_EVENT: {
+			uint32_t current = millis();
+			if ((current - previous) > 2000) {
+				previous = current;
+				Serial.print(counter);
+				counter++;
+			}
+			if (Serial.available() > 0) {
+				if (Serial.read() == '2') {
+				taskState = TaskStates::WAIT_INIT;
+				}
+			} break;
+		}
+		default: {
+		break;
+		}
+	}
 }
 
-void setup()
-{
-		task();
+void setup() {
+	task();
 }
 
-void loop()
-{
-		task();
+void loop() {
+	task();
 }
 ```
 
@@ -330,62 +299,54 @@ enum TaskState
 
 public class Serial : MonoBehaviour
 {
-		private static TaskState taskState = TaskState.INIT;
-		private SerialPort _serialPort;
-		private byte[] buffer;
-		public TextMeshProUGUI myText;
-		private int counter = 0;
+	private static TaskState taskState = TaskState.INIT;
+	private SerialPort _serialPort;
+	private byte[] buffer;
+	public TextMeshProUGUI myText;
+	private int counter = 0;
 
-		void Start()
-    {
-        _serialPort =new SerialPort();
-        _serialPort.PortName = "COM3";
-        _serialPort.BaudRate = 115200;
-        _serialPort.DtrEnable =true;
-        _serialPort.Open();
-        Debug.Log("Open Serial Port");
-        buffer =new byte[128];
-    }
+	void Start() {
+		_serialPort =new SerialPort();
+		_serialPort.PortName = "COM3";
+		_serialPort.BaudRate = 115200;
+		_serialPort.DtrEnable =true;
+		_serialPort.Open();
+		Debug.Log("Open Serial Port");
+		buffer =new byte[128];
+	}
 
-void Update()
-    {
-        myText.text = counter.ToString();
-        counter++;
-
-				switch (taskState)
-        {
-						case TaskState.INIT:
-		            taskState = TaskState.WAIT_START;
-                Debug.Log("WAIT START");
-								break;
-						case TaskState.WAIT_START:
-								if (Input.GetKeyDown(KeyCode.A))
-                {
-                    byte[] data = {0x31};// start
-                    _serialPort.Write(data,0,1);
-                    Debug.Log("WAIT EVENTS");
-                    taskState = TaskState.WAIT_EVENTS;
-                }
-								break;
-						case TaskState.WAIT_EVENTS:
-								if (Input.GetKeyDown(KeyCode.B))
-                {
-                    byte[] data = {0x32};// stop
-                    _serialPort.Write(data,0,1);
-                    Debug.Log("WAIT START");
-                    taskState = TaskState.WAIT_START;
-                }
-								if (_serialPort.BytesToRead > 0)
-                {
-                    int numData = _serialPort.Read(buffer, 0, 128);
-                    Debug.Log(System.Text.Encoding.ASCII.GetString(buffer));
-                }
-								break;
-						default:
-                Debug.Log("State Error");
-								break;
-        }
-    }
+	void Update() {
+		myText.text = counter.ToString();
+		counter++;
+		
+		switch (taskState) {
+			case TaskState.INIT:
+				taskState = TaskState.WAIT_START;
+				Debug.Log("WAIT START");
+			break;
+			case TaskState.WAIT_START:
+				if (Input.GetKeyDown(KeyCode.A)) {
+					byte[] data = {0x31};// start
+					_serialPort.Write(data,0,1);
+					Debug.Log("WAIT EVENTS");
+					taskState = TaskState.WAIT_EVENTS;
+			} break;
+			case TaskState.WAIT_EVENTS:
+				if (Input.GetKeyDown(KeyCode.B)) {
+					byte[] data = {0x32};// stop
+					_serialPort.Write(data,0,1);
+					Debug.Log("WAIT START");
+					taskState = TaskState.WAIT_START;
+				}
+				if (_serialPort.BytesToRead > 0) {
+					int numData = _serialPort.Read(buffer, 0, 128);
+					Debug.Log(System.Text.Encoding.ASCII.GetString(buffer));
+			} break;
+			default:
+			Debug.Log("State Error");
+			break;
+		        }
+	    }
 }
 ```
 
@@ -404,77 +365,65 @@ Analicemos el asunto. Cuando preguntas `_serialPort.BytesToRead > 0` lo que 
 Ahora vas a analizar cómo puedes resolver el problema anterior. Puntualmente, analiza el siguiente programa del controlador:
 
 ```cpp
-String btnState(uint8_t btnState)
-{
-		if(btnState == HIGH)
-		{
-				return "OFF";
-		}
-		else
-				return "ON";
-}
+String btnState(uint8_t btnState) {
+	if(btnState == HIGH) {
+	return "OFF";
+	} else
+	return "ON";
+	}
 
 void task()
 {
-		enum class TaskStates
-		{
-		    INIT,
-		    WAIT_COMMANDS
-	  };
-		static TaskStates taskState = TaskStates::INIT;
-		constexpr uint8_t led = 25;
-		constexpr uint8_t button1Pin = 12;
-		constexpr uint8_t button2Pin = 13;
-		constexpr uint8_t button3Pin = 32;
-		constexpr uint8_t button4Pin = 33;
+	enum class TaskStates {
+	INIT,
+	WAIT_COMMANDS
+	};
 
-		switch (taskState)
-	  {
-				case TaskStates::INIT:
-				{
-						Serial.begin(115200);
-						pinMode(led, OUTPUT);
-						digitalWrite(led, LOW);
-						pinMode(button1Pin, INPUT_PULLUP);
-						pinMode(button2Pin, INPUT_PULLUP);
-						pinMode(button3Pin, INPUT_PULLUP);
-						pinMode(button4Pin, INPUT_PULLUP);
-						taskState = TaskStates::WAIT_COMMANDS;
-						break;
+	static TaskStates taskState = TaskStates::INIT;
+	constexpr uint8_t led = 25;
+	constexpr uint8_t button1Pin = 12;
+	constexpr uint8_t button2Pin = 13;
+	constexpr uint8_t button3Pin = 32;
+	constexpr uint8_t button4Pin = 33;
+	
+	switch (taskState) {
+		case TaskStates::INIT: {
+			Serial.begin(115200);
+			pinMode(led, OUTPUT);
+			digitalWrite(led, LOW);
+			pinMode(button1Pin, INPUT_PULLUP);
+			pinMode(button2Pin, INPUT_PULLUP);
+			pinMode(button3Pin, INPUT_PULLUP);
+			pinMode(button4Pin, INPUT_PULLUP);
+			taskState = TaskStates::WAIT_COMMANDS;
+		break; }
+		case TaskStates::WAIT_COMMANDS: {
+			if (Serial.available() > 0)
+			{
+				String command = Serial.readStringUntil('\n');
+				if (command == "ledON") {
+					digitalWrite(led, HIGH);
 				}
-				case TaskStates::WAIT_COMMANDS:
-				{
-						if (Serial.available() > 0)
-						{
-								String command = Serial.readStringUntil('\n');
-								if (command == "ledON")
-								{
-										digitalWrite(led, HIGH);
-								}
-								else if (command == "ledOFF")
-								{
-										digitalWrite(led, LOW);
-								}
-								else if (command == "readBUTTONS")
-							  {
-										Serial.print("btn1: ");
-						        Serial.print(btnState(digitalRead(button1Pin)).c_str());
-						        Serial.print(" btn2: ");
-						        Serial.print(btnState(digitalRead(button2Pin)).c_str());
-						        Serial.print(" btn3: ");
-						        Serial.print(btnState(digitalRead(button3Pin)).c_str());
-						        Serial.print(" btn4: ");
-						        Serial.print(btnState(digitalRead(button4Pin)).c_str());
-						        Serial.print('\n');
-					      }
-						}
-						break;
+				else if (command == "ledOFF") {
+					digitalWrite(led, LOW);
 				}
-				default:
-				{
-						break;
-			  }
+				else if (command == "readBUTTONS") {
+					Serial.print("btn1: ");
+					Serial.print(btnState(digitalRead(button1Pin)).c_str());
+					Serial.print(" btn2: ");
+					Serial.print(btnState(digitalRead(button2Pin)).c_str());
+					Serial.print(" btn3: ");
+					Serial.print(btnState(digitalRead(button3Pin)).c_str());
+					Serial.print(" btn4: ");
+					Serial.print(btnState(digitalRead(button4Pin)).c_str());
+					Serial.print('\n');
+				}
+			}
+		break; }
+		default: {
+		break;
 		}
+	}
 }
 
 void setup()
@@ -503,62 +452,55 @@ enum TaskState
 
 public classSerial : MonoBehaviour
 {
-		private static TaskState taskState = TaskState.INIT;
-		private SerialPort _serialPort;
-		private byte[] buffer;
-		public TextMeshProUGUI myText;
-		private int counter = 0;
+	private static TaskState taskState = TaskState.INIT;
+	private SerialPort _serialPort;
+	private byte[] buffer;
+	public TextMeshProUGUI myText;
+	private int counter = 0;
+	
+	void Start() {
+		_serialPort =new SerialPort();
+	        _serialPort.PortName = "COM3";
+	        _serialPort.BaudRate = 115200;
+	        _serialPort.DtrEnable =true;
+	        _serialPort.NewLine = "\n";
+	        _serialPort.Open();
+	        Debug.Log("Open Serial Port");
+	        buffer =new byte[128];
+	}
 
-		void Start()
-    {
-				_serialPort =new SerialPort();
-        _serialPort.PortName = "COM3";
-        _serialPort.BaudRate = 115200;
-        _serialPort.DtrEnable =true;
-        _serialPort.NewLine = "\n";
-        _serialPort.Open();
-        Debug.Log("Open Serial Port");
-        buffer =new byte[128];
-    }
+	void Update() {
+	        myText.text = counter.ToString();
+	        counter++;
 
-		void Update()
-    {
-        myText.text = counter.ToString();
-        counter++;
-
-				switch (taskState)
-        {
-						case TaskState.INIT:
-		            taskState = TaskState.WAIT_COMMANDS;
-                Debug.Log("WAIT COMMANDS");
-								break;
-						case TaskState.WAIT_COMMANDS:
-								if (Input.GetKeyDown(KeyCode.A))
-                {
-		                _serialPort.Write("ledON\n");
-                    Debug.Log("Send ledON");
-                }
-								if (Input.GetKeyDown(KeyCode.S))
-                {
-                    _serialPort.Write("ledOFF\n");
-                    Debug.Log("Send ledOFF");
-                }
-								if (Input.GetKeyDown(KeyCode.R))
-                {
-                    _serialPort.Write("readBUTTONS\n");
-                    Debug.Log("Send readBUTTONS");
-                }
-								if (_serialPort.BytesToRead > 0)
-                {
-                    string response = _serialPort.ReadLine();
-                    Debug.Log(response);
-                }
-								break;
-						default:
-                Debug.Log("State Error");
-								break;
-        }
-    }
+		switch (taskState) {
+			case TaskState.INIT:
+		    		taskState = TaskState.WAIT_COMMANDS;
+                		Debug.Log("WAIT COMMANDS");
+			break;
+			case TaskState.WAIT_COMMANDS:
+				if (Input.GetKeyDown(KeyCode.A)) {
+			 		_serialPort.Write("ledON\n");
+	    				Debug.Log("Send ledON");
+				}
+				if (Input.GetKeyDown(KeyCode.S)) {
+	    				_serialPort.Write("ledOFF\n");
+	    				Debug.Log("Send ledOFF");
+				}
+				if (Input.GetKeyDown(KeyCode.R)) {
+    					_serialPort.Write("readBUTTONS\n");
+	    				Debug.Log("Send readBUTTONS");
+				}
+				if (_serialPort.BytesToRead > 0) {
+	  				string response = _serialPort.ReadLine();
+					Debug.Log(response);
+				}
+			break;
+			default:
+				Debug.Log("State Error");
+			break;
+		}
+	}
 }
 ```
 
