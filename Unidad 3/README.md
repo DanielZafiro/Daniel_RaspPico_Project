@@ -198,25 +198,22 @@ En resumen, un protocolo binario se compone de un encabezado que proporciona inf
 
 En [este](https://www.arduino.cc/reference/en/language/functions/communication/serial/) enlace vas a mirar los siguientes métodos. Te pediré que, por favor, los tengas a mano porque te servirán para resolver problemas. Además, en este punto, hagamos un repaso de las funciones que han apoyado la comunicación seral:
 
-<aside>
-  
-💡 `Serial.available()`
-
-`Serial.read()`
-
-`Serial.readBytes(buffer, length)`
-
-`Serial.write()`
-
-</aside>
+> [!TIP]
+> 
+> `Serial.available()`
+>
+> `Serial.read()`
+> 
+> `Serial.readBytes(buffer, length)`
+>
+> `Serial.write()`
 
 Nótese que la siguiente función no está en la lista de repaso:
 
-<aside>
-  
-💡 **`Serial.readBytesUntil()`**
+> [!WARNING]
+> 
+> **`Serial.readBytesUntil()`**
 
-</aside>
 
 ¿Sospecha por qué se ha excluido? La razón es porque en un protocolo binario usualmente no tiene un carácter de FIN DE MENSAJE, como si ocurre con los protocolos ASCII, donde usualmente el último carácter es el `\n`.
 
@@ -259,15 +256,12 @@ Por lo tanto, al diseñar un protocolo binario, es importante especificar explí
 
 ---
 
-## **Ejercicio 4: transmitir números en punto flotante**
+### **Ejercicio 4: transmitir números en punto flotante**
 
-<aside>
-  
-💡 **¡Desempolva ScriptCommunicator!**
-
-Para este ejercicio vas a necesitar una herramienta que te permita ver los bytes que se están transmitiendo sin interpretarlos como caracteres ASCII. Usa **ScriptCommunicator** en los sistemas operativos Windows o Linux y **CoolTerm** en el sistema operativo MacOS (te soporta la arquitectura Mx).
-
-</aside>
+> [!IMPORTANT]  
+> 💡 **¡Desempolva ScriptCommunicator!**
+>
+> Para este ejercicio vas a necesitar una herramienta que te permita ver los bytes que se están transmitiendo sin interpretarlos como caracteres ASCII. Usa **ScriptCommunicator** en los sistemas operativos Windows o Linux y **CoolTerm** en el sistema operativo MacOS (te soporta la arquitectura Mx).
 
 ¿Cómo transmitir un número en punto flotante? Veamos dos alternativas:
 
@@ -447,7 +441,7 @@ void loop() {
 
 ---
 
-### **Ejercicio 5: envía tres números en punto flotante**
+### **Ejercicio 5: envía dos números en punto flotante**
 
 Ahora te voy a pedir que practiques. La idea es que transmitas dos números en punto flotante en ambos *endian*.
 
@@ -524,4 +518,216 @@ Es importante saber utilizar ambos tipos de protocolos porque cada uno tiene sus
 
 ---
 
+### Ejercicio 6: **aplicación interactiva**
 
+En este punto, te pido que repases, bien sea desde lo expuesto en la unidad anterior o remitiéndose a la documentación de C# de Microsoft, para qué sirven los siguientes tres fragmentos de código y qué están haciendo:
+
+```csharp
+SerialPort _serialPort =new SerialPort();
+_serialPort.PortName = "/dev/ttyUSB0";
+_serialPort.BaudRate = 115200;
+_serialPort.DtrEnable =true;
+_serialPort.Open();
+```
+
+```csharp
+byte[] data = { 0x01, 0x3F, 0x45};
+_serialPort.Write(data,0,1);
+```
+
+```csharp
+byte[] buffer =new byte[4];
+.
+.
+.
+
+if(_serialPort.BytesToRead >= 4){
+
+    _serialPort.Read(buffer,0,4);
+for(int i = 0;i < 4;i++){
+        Console.Write(buffer[i].ToString("X2") + " ");
+    }
+}
+```
+
+> [!IMPORTANT]
+> 💡 **A PRACTICAR**
+>
+> Inventa una aplicación en Unity que utilice TODOS los métodos anteriores. Ten presente que necesitarás, además, inventar también la aplicación del microcontrolador.
+
+---
+
+### **Ejercicio 7: RETO**
+
+Vas a enviar 2 números en punto flotante desde un microcontrolador a una aplicación en Unity usando comunicaciones binarias. Además, inventa una aplicación en Unity que modifique dos dimensiones de un *game object* usando los valores recibidos.
+
+> [!TIP]
+> 💡 Te voy a dejar una ayuda. Revisar el siguiente fragmento de código… ¿Qué hace?
+
+
+```csharp
+byte[] buffer = new byte[4];
+.
+.
+.
+if(_serialPort.BytesToRead >= 4){
+  _serialPort.Read(buffer,0,4);
+  Console.WriteLine(System.BitConverter.ToSingle(buffer,0));
+```
+
+> [!IMPORTANT]
+> 💡 Presta especial atención **System.BitConverter.ToSingle**. Ahora, te pediré que busques en la documentación de Microsoft de C# qué más te ofrece System.BitConverter.
+
+**Descirpción de la solución de este ejercicio de practica:**
+
+**Aplicación en Unity:** 
+
+**Descripción**: Una aplicación de monitoreo y control remoto para un sistema de iluminación inteligente. La aplicación permite al usuario ajustar el brillo de una lámpara LED utilizando controles deslizantes en la interfaz de usuario de Unity. La aplicación se comunica con un microcontrolador simulado que controla la lámpara LED.
+
+**Funcionalidades**:
+1. La aplicación muestra un control deslizante para ajustar el brillo de la lámpara LED.
+2. Cuando el usuario ajusta el control deslizante, la aplicación envía el valor de brillo al microcontrolador simulado a través de comunicación serie.
+3. El microcontrolador simulado recibe el valor de brillo y controla la lámpara LED para ajustar su intensidad luminosa.
+4. El microcontrolador simulado envía de vuelta a la aplicación el estado actual de la lámpara LED.
+5. La aplicación muestra el estado actual de la lámpara LED en la interfaz de usuario.
+
+### Microcontrolador simulado:
+
+**Descripción**: Un microcontrolador simulado que recibe comandos de brillo de la lámpara LED y devuelve el estado actual de la misma.
+
+**Funcionalidades**:
+1. El microcontrolador simulado espera comandos de brillo enviados desde la aplicación Unity a través de comunicación serie.
+2. Cuando recibe un comando de brillo, el microcontrolador simulado ajusta la intensidad luminosa de la lámpara LED simulada.
+3. El microcontrolador simulado envía de vuelta a la aplicación Unity el estado actual de la lámpara LED, incluyendo su brillo actual.
+
+### Implementación en Unity:
+
+1. Configura un objeto `SerialPort` en Unity para establecer una conexión serie con el microcontrolador simulado.
+2. Implementa un control deslizante en la interfaz de usuario de Unity para permitir al usuario ajustar el brillo de la lámpara LED.
+3. Utiliza el método `SerialPort.Write()` para enviar el valor de brillo al microcontrolador simulado.
+4. Utiliza el método `SerialPort.Read()` para recibir el estado actual de la lámpara LED desde el microcontrolador simulado.
+5. Actualiza la interfaz de usuario de Unity para mostrar el estado actual de la lámpara LED.
+
+>[!NOTE]
+>
+>El proyecto en unity se puede abrir en la carpeta con el nombre Ejercicio 7 unit 3 App interactiva en la version del editor 2022.3.21.f1
+
+Asi se ve la interfaz de unity para el usuario:
+
+https://github.com/DanielZafiro/Daniel_RaspPico_Project/assets/66543657/ca0d88cb-4bc1-4fb1-af8b-5d25643e8f7e
+
+Este es el bloque de codigo para el slider:
+
+```csharp
+using UnityEngine;
+using UnityEngine.UI;
+using System.IO.Ports; // Para la comunicación serial
+using TMPro; // Importa el espacio de nombres TMPro para usar el tipo TextMeshProUGUI
+
+
+public class SliderController : MonoBehaviour
+{
+    public Slider slider;
+    public TextMeshProUGUI valueText;
+    public Light lampLight;
+
+    SerialPort serialPort;
+
+    void Start()
+    {
+        // Inicializar el puerto serial
+        serialPort = new SerialPort("COM4", 9600); 
+        serialPort.Open();
+    }
+
+    void Update()
+    {
+        // Mostrar el valor del slider en el texto
+        valueText.text = slider.value.ToString("F2");
+
+        // Controlar la intensidad de la luz según la posición del slider
+        float intensity = slider.value; // Suponiendo que el slider va de 0 a 1
+        lampLight.intensity = intensity * 1; // 
+
+
+        // Enviar el valor por el puerto serial
+        float sliderValue = slider.value;
+        serialPort.WriteLine(sliderValue.ToString("F2"));
+    }
+
+    void OnDestroy()
+    {
+        // Cerrar el puerto serial cuando el objeto se destruye
+        if (serialPort != null && serialPort.IsOpen)
+        {
+            serialPort.Close();
+        }
+    }
+}
+```
+
+Este es el bloque de codigo para el botón:
+
+```csharp
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro; // Importa el espacio de nombres TMPro para usar el tipo TextMeshProUGUI
+
+
+public class LightSwitch : MonoBehaviour
+{
+    public Light lampLight;
+    public Button switchButton; 
+    public TMP_Text buttonText; // Referencia al componente de texto de TextMeshPro
+
+    bool isOn = true;
+
+    void Start()
+    {
+        // Asignar la función de toggle al botón
+        switchButton.onClick.AddListener(ToggleLight);
+    }
+
+    void ToggleLight()
+    {
+        // Cambiar el estado del bombillo y actualizar el texto del botón
+        isOn = !isOn;
+        lampLight.enabled = isOn;
+        buttonText.text = isOn ? "Apagar" : "Encender"; // Actualizar el texto del botón
+    }
+}
+```
+
+Nota: Hace falta el bloque de codigo para el controlador y establecer el protocolo binario, hacer pruebas y evidenciarlo 
+
+---
+
+### Ejercicio extra: CAD(Conversion de señales Analogo a Digital) Temperatura del sensor en el Raspberry Pi Pico
+
+lo que haremos en esta ocasión es tomar una señal que puede tener cualquier valor en cualquier instante de tiempo (señal análoga, en este caso temperatura) y convertirla a 0s y 1s (señal digital). Para eso utilizamos un conversor análogo a Digital (CAD) y para el caso del Raspberry Pi Pico ya está incorporado, entonces se trata de usarlo. Para este caso no requieres hacer conexiones adicionales. Si tu reto de hoy funciona adecuadamente, al  correr tu código, visualizar los datos en el monitor serial y poner el dedo en el integrado principal de la tarjeta debes observar cómo la temperatura va aumentando lentamente. Muchos éxitos, utiliza los diferentes mecanismos de aprendizaje. La idea es que logres resolver esto de forma individual, imagínate algo así como una prueba técnica de una empresa. Al final del proceso graba un video explicando tu código verbalmente y mostrando el funcionamiento. Recuerda que las medidas las debemos ver en punto flotante.
+
+Este ejercicio está diseñado para que lo realices en máximo 2 horas de tu tiempo. 
+En este espacio debes montar un video, o link al video, donde muestres en pantalla el código desarrollado para adquirir el dato de temperatura, la explicación verbal de dicho código que muestre tu comprensión y el funcionamiento.
+Este ejercicio corresponde al 10% del trabajo  final de la unidad 3.
+
+- Rúbrica del trabajo asíncrono:
+  - Explicación verbal en el video (2unds)
+  - Funcionamiento evidenciado en el video (3 unds)
+
+Material de apoyo para el desarrollo de la actividad asincrónica lo encontrarás a continuación y en la misma carpeta del repositorio:
+
+[CAD.pdf](https://upbeduco-my.sharepoint.com/:b:/g/personal/vera_perez_upb_edu_co/EaOWw61VyFNJitOxEfd90vIBI_IHcwE1qK0W8vdkXfht4A?e=0fpEII)
+
+
+---
+
+### Trabajo Final Unidad 3
+
+**Narrativa opcional para el trabajo final de la unidad 3 o continuar con el reproductor de musica de la entrega final de la unidad 2**
+
+Una cabina acustica para la grabación de instrumentos, voces, foleys, El controlador avisa de la temperactura actual de la cabina, como los artistas/productores pueden durar horas dentro y con el material acustico que envuelve la cabina puede hacer que se acumule calor durante las sesiones y para no tener que preocuparse por ello, el controlador a temperaturas altas debe poder encender el aire acondicionado y apagarse a temperaturas bajas para aclimar el ambiente dentro de la cabina, adicional dentro de la cabina hay una lampara que se enciende por 5 segundos indicando que ha pasado 1 hora de sesion para recordarles que tomen un descanso y reiniciar el conteo de una hora.
+
+variables:
+- temperatura de la cabina (sensor del controlador)
+- encender/apagar el aire acondicionado a 24.5° (regulable desde unity?)
+- pomodoro encender una lampara dentro de la cabina por 5 seg cada hora(sesion)
