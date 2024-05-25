@@ -20,7 +20,7 @@ https://silk-motion-e7d.notion.site/Introducci-n-al-control-de-versi-n-2c27c7ec3
 - [Unidad 1: Software para sistemas embebidos](https://www.notion.so/Unidad-1-Software-para-sistemas-embebidos-86760026bfac4e339e649191eedab500?pvs=21)
 - [Unidad 2: Protocolos ASCII](https://www.notion.so/Unidad-2-Protocolos-ASCII-9e3fffd3d9dc4adbbd61bd6eca7a6b3f?pvs=21)
 - [Unidad 3: Protocolos binarios](https://www.notion.so/Unidad-3-Protocolos-Binarios-c3f8c1cf2e354ab2939061b626bdf2e3?pvs=21)
-- Unidad 4: Proyecto
+- [Unidad 4: Proyecto](https://silk-motion-e7d.notion.site/Unidad-4-Aprendizaje-integrativo-991bf17b4fd84fd5b5f26f35bbb44976)
 
 # Introducción al curso
 
@@ -70,7 +70,7 @@ El curso está divido en 4 unidades más una introducción corta para aprender a
 1. [Unidad 1: Software para sistemas embebidos](https://www.notion.so/Unidad-1-Software-para-sistemas-embebidos-86760026bfac4e339e649191eedab500?pvs=21)
 2. [Unidad 2: Protocolos ASCII](https://www.notion.so/Unidad-2-Protocolos-ASCII-9e3fffd3d9dc4adbbd61bd6eca7a6b3f?pvs=21)
 3. [Unidad 3: Protocolos binarios](https://www.notion.so/Unidad-3-Protocolos-Binarios-c3f8c1cf2e354ab2939061b626bdf2e3?pvs=21)
-4. Unidad 4: Plataformas de software interactivas de tiempo real
+4. [Unidad 4: Plataformas de software interactivas de tiempo real](https://www.notion.so/Unidad-4-Aprendizaje-integrativo-991bf17b4fd84fd5b5f26f35bbb44976?pvs=21)
 
 La metodología del curso es de aula invertida. En este sitio web está todo el material necesario para que puedas preparar la evaluación de cada unidad. La ruta sugerida es revisar el material del trayecto de actividades antes de la clase y enfrentarte por primera vez al desarrollo de los ejercicios.  La idea es que en la clase te enfrentes nuevamente a los ejercicios y con tus compañeros de equipo y la asesoría del docente logres culminarlos satisfactoriamente e ir avanzando de acuerdo al cronograma del curso.
 
